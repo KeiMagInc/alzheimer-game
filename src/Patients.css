@@ -1,0 +1,144 @@
+/* General container to occupy full width and height of the screen */
+body{
+  background-image: url('../public/Assets/GameScenes/PuzzleSbk.png'); /* Ruta a la imagen */
+  background-size: cover; /* Ajusta la imagen para cubrir toda el área */
+}
+
+.patients-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
+  height: 100vh;
+  width: 100%;
+  padding: 2rem;
+  color: black; /* Usando el color #103754 para el texto principal */
+}
+
+/* Therapist details section */
+.therapist-details {
+  background-color: #fff; /* Fondo para detalles del terapeuta */
+  padding: 1rem;
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  margin-bottom: 2rem;
+  width: 100%;
+}
+
+.therapist-details p {
+  font-size: 1.2rem;
+  margin: 0.5rem 0;
+}
+
+/* Title for therapist section */
+.patients-container h1 {
+  font-size: 40px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-bottom: 1rem;
+  padding-top: 50px;
+  color: #103754; /* Usando el color principal para los títulos */
+}
+
+/* Title for patients section */
+.patients-container h2 {
+  font-size: 40px;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+  margin-bottom: 1rem;
+  padding-top: 20px;
+  color: #103754; /* Usando el color principal para los títulos */
+}
+
+/* Table of patients */
+.patient-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: #ffffff; /* Fondo blanco para la tabla */
+  border-radius: 10px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.patient-table th, .patient-table td {
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid #ddd;
+  font-size: 1.1rem;
+}
+
+/* Header row of the table */
+.patient-table th {
+  background-color: #eebd41; /* Fondo oscuro para encabezado */
+  color: #fff; /* Texto blanco para el encabezado */
+}
+
+/* Button to add a new patient */
+.add-patient-btn {
+  background-color: #4ab13a; /* Usando el color #F17961 para el botón de agregar paciente */
+  color: #fff;
+  border: none;
+  padding: 0.8rem 1.5rem;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  position: fixed;
+  top: 20px;
+  right: 20px; /* Ubicación del botón en la parte superior derecha */
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: background-color 0.3s ease;
+}
+
+.add-patient-btn:hover {
+  background-color: #F5B13D; /* Color más oscuro al pasar el ratón */
+}
+
+/* Table row buttons */
+.patient-table button {
+  background-color: #d24d49; /* Usando el color #F17961 para los botones */
+  color: #fff;
+  border: none;
+  width: 100%;
+  padding: 0.5rem 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  margin: 0.5rem;
+}
+
+.btn-registrar-paciente {
+  background-color: #28a745; /* Usando el color #F17961 para el botón de registrar paciente */
+  color: #fff;
+  border: none;
+  width: 15%;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  align-self: flex-end;
+}
+
+.btn-registrar-paciente button:hover {
+  background-color: #65190a; /* Color más oscuro al pasar el ratón */
+}
+
+
+.patient-table button:hover {
+  background-color: #65190a; /* Color más oscuro al pasar el ratón */
+}
+
+/* Botón de regresar */
+.btn-back {
+  background-color: #d24d49; /* Usando el color #103754 para el botón de regresar */
+  color: #fff;
+  border: none;
+  width: 8%;
+  padding: 0.5rem 1rem;
+  font-size: 1rem;
+  border-radius: 5px;
+  cursor: pointer;
+  position: absolute;
+  top: 10px;
+  left: 20px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+.btn-back:hover {
+  background-color: #65190a; /* Color más oscuro al pasar el ratón */
+}

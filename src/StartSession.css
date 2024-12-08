@@ -1,0 +1,131 @@
+/* Contenedor principal de la sesión */
+.session-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: flex-start;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    color: #333;
+    max-width: 100%;
+    height: 100vh;
+    box-sizing: border-box;
+  }
+  
+  /* Títulos */
+  h1 {
+    font-size: 2.5rem;
+    margin-bottom: 10px;
+    color: #103754; /* Azul para el título */
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  h2 {
+    font-size: 1.5rem;
+    margin-bottom: 30px;
+    color: #333;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  }
+  
+  /* Contenedor de la selección de dibujos */
+  .drawing-selection {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  /* Opciones de los botones para los dibujos */
+  .drawing-options {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 30px;
+  }
+  
+  /* Estilo de los botones de los dibujos */
+  .drawing-options button {
+    background-color: #eebd41; /* Azul */
+    color: black;
+    font-weight: 600;
+    border: none;
+    padding: 12px 20px;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    width: 180px;
+    text-align: center;
+  }
+  
+  .drawing-options button:hover {
+    background-color: #e49320; /* Azul oscuro */
+  }
+  
+  /* Vista previa del dibujo seleccionado */
+  .drawing-preview {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #dfdbdb;
+    padding: 20px;
+    border-radius: 10px;
+    width: 80%;
+    max-width: 500px;
+    margin-bottom: 20px;
+  }
+  
+  /* Contenedor del canvas para pintar */
+  .drawing-canvas {
+    margin-top: 20px;
+    width: 100%;
+    height: 300px;
+    background-color: #ececec;
+    border: 2px dashed #ccc;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 1.2rem;
+    color: #333;
+  }
+  
+  /* Botón para iniciar la pintura */
+  .start-painting-btn {
+    background-color: #28a745; /* Verde */
+    color: white;
+    border: none;
+    width: 35%;
+    padding: 10px 20px;
+    font-size: 1.2rem;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 20px;
+  }
+  
+  .start-painting-btn:hover {
+    background-color: #dc3545; /* Verde oscuro */
+  }
+
+  /* Botón de regresar */
+.btn-back1 {
+    background-color: #d24d49; /* Usando el color #103754 para el botón de regresar */
+    color: #fff;
+    border: none;
+    width: 8%;
+    padding: 0.5rem 1rem;
+    font-size: 1rem;
+    border-radius: 5px;
+    cursor: pointer;
+    position: absolute;
+    top: 10px;
+    left: 20px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+  
+  .btn-back1:hover {
+    background-color: #65190a; /* Color más oscuro al pasar el ratón */
+  }
+  
