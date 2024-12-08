@@ -50,8 +50,10 @@ class StartScene extends Phaser.Scene {
         buttonContainer.style.width = '100vw';
         buttonContainer.style.height = '100vh';
         buttonContainer.style.display = 'flex';
-        buttonContainer.style.left = '720px'; //Posicion en x, desde la izquierda
-        buttonContainer.style.top = '502px'; //Posicion en y, desde arriba
+        buttonContainer.style.justifyContent = 'center'; // Centra horizontalmente
+        buttonContainer.style.alignItems = 'center'; // Centra verticalmente
+        buttonContainer.style.transform = 'translateY(30%)'; // Baja el contenedor un 20% del alto total
+
         buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
 
         // Estilo del botón
