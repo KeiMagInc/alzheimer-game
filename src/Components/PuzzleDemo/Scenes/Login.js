@@ -61,7 +61,22 @@ const Login = () => {
           />
         </div>
         {errorMessage && <p className="error-message">{errorMessage}</p>}
-        <button type="submit">Iniciar sesión</button>
+        <button 
+          type="submit" 
+          style={{
+            backgroundImage: 'url("Assets/Button/loginBTN.png")',
+            backgroundSize: 'contain',
+            backgroundRepeat: 'no-repeat',
+            backgroundPosition: 'center',
+            width: '155px', // Ajusta el tamaño del botón
+            height: '70px', // Ajusta el tamaño del botón
+            border: 'none', // Elimina el borde
+            cursor: 'pointer', // Cambia el cursor al pasar sobre el botón
+            color: 'transparent ', // Oculta el texto si no deseas que se vea
+          }}
+        >
+          Iniciar sesión
+        </button>
       </form>
     </div>
   );
