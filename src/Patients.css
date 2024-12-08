@@ -1,7 +1,6 @@
 /* General container to occupy full width and height of the screen */
 body{
-  background-image: url('../public/Assets/GameScenes/PuzzleSbk.png'); /* Ruta a la imagen */
-  background-size: cover; /* Ajusta la imagen para cubrir toda el área */
+  background-color: #F7EDE3; /* Usando el color #FECE8C como fondo general */
 }
 
 .patients-container {
@@ -141,4 +140,11 @@ body{
 
 .btn-back:hover {
   background-color: #65190a; /* Color más oscuro al pasar el ratón */
+}
+
+html, body {
+  height: 100%;  /* Asegura que el cuerpo y el html ocupen el 100% de la altura de la ventana */
+  margin: 0;     /* Elimina márgenes predeterminados */
+  padding: 0;    /* Elimina el padding predeterminado */
+  overflow: auto; /* Asegura que el contenido pueda desplazarse */
 }

@@ -1,13 +1,34 @@
-import React from "react";
+import React ,  { useState, useEffect }from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import '../../../Patients.css';
+import PatientService from '../../../Services/PatientService';
 
 const Patients = () => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [patients, setPatients] = useState([]);
 
   const { therapist } = location.state || {};
+  useEffect(() => {
+    const fetchPatients = async () => {
+      try {
+        const response = await PatientService.getPatients();
+        console.log(response.data);
+        if (response && response.data) {
+          setPatients(response.data);
+        } else {
+          console.log('No se encontraron pacientes.');
+        }
+      } catch (err) {
+        console.log(err);
+      }
+    };
 
+    fetchPatients();
+    console.log('s'+patients); 
+  }, []);
+    
+   
   if (!therapist) {
     return <p>Por favor, inicia sesión para ver esta página.</p>;
   }
@@ -35,11 +56,11 @@ const Patients = () => {
         Regresar
       </button>
 
-      <h1>Bienvenido {therapist.name} {therapist.lastName}</h1>
+      <h1>Bienvenido {therapist.nombre} {therapist.apellido}</h1>
       <div className="therapist-details">
         <p><strong>ID Terapeuta:</strong> {therapist.id}</p>
-        <p><strong>NUI:</strong> {therapist.NUI}</p>
-        <p><strong>Especialidad:</strong> {therapist.specialty}</p>
+        <p><strong>NUI:</strong> {therapist.nui}</p>
+        <p><strong>Especialidad:</strong> {therapist.especialidad}</p>
       </div>
 
       <button 
@@ -64,10 +85,10 @@ const Patients = () => {
           </tr>
         </thead>
         <tbody>
-          {therapist.patients.map((patient, index) => (
+          {patients.map((patient, index) => (
             <tr key={index}>
               <td>{patient.id}</td>
-              <td>{patient.NUI}</td>
+              <td>{patient.nui}</td>
               <td>{patient.nombre}</td>
               <td>{patient.apellido}</td>
               <td>{patient.edad}</td>
