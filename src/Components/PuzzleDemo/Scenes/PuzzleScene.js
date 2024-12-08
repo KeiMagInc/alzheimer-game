@@ -28,33 +28,32 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         this.load.image('terminarButton', '/Assets/Button/terminar.png');
         this.load.image('puzzlescenebk', '/Assets/GameScenes/PuzzleSbkEnBlanco.png')
         console.log("paso de cuenta abajo 1 " + this.countDown)
-
-        //Colores de los cuadrados
-        this.load.image('black','/Assets/New/0.png')
         this.load.image('red', '/Assets/New/1.png')
-        this.load.image('orange', '/Assets/New/2.png')
-        this.load.image('yellow', '/Assets/New/3.png')
+        this.load.image('blue', '/Assets/New/8.png')
         this.load.image('green', '/Assets/New/4.png')
-        this.load.image('lightGreen', '/Assets/New/5.png')
-        this.load.image('darkBlue', '/Assets/New/6.png')
-        this.load.image('blue', '/Assets/New/7.png')
-        this.load.image('pink', '/Assets/New/8.png')
-        this.load.image('brown','/Assets/New/9.png')
         this.load.image('border','/Assets/New/Borde.png')
+        this.load.image('darkBlue', '/Assets/New/7.png')
+        this.load.image('lightGreen', '/Assets/New/5.png')
+        this.load.image('pink', '/Assets/New/12.png')
+        this.load.image('yellow', '/Assets/New/3.png')
+        this.load.image('orange', '/Assets/New/2.png')
+        this.load.image('black','/Assets/New/0.png')
+        this.load.image('brown','/Assets/New/17.png')
         this.load.image('transparente', '/Assets/New/Transparente.png')
 
-        //Cubos de Pintura
-        this.load.image('blackC', '/Assets/Cubos/0.png')
+
+        //Cubos
         this.load.image('redC', '/Assets/Cubos/1.png')
-        this.load.image('orangeC', '/Assets/Cubos/2.png')
-        this.load.image('yellowC', '/Assets/Cubos/3.png')
+        this.load.image('blueC', '/Assets/Cubos/8.png')
         this.load.image('greenC', '/Assets/Cubos/4.png')
-        this.load.image('lightGreenC', '/Assets/Cubos/5.png')
-        this.load.image('darkBlueC', '/Assets/Cubos/6.png')
-        this.load.image('blueC', '/Assets/Cubos/7.png')
-        this.load.image('pinkC', '/Assets/Cubos/8.png')
-        this.load.image('brownC', '/Assets/Cubos/9.png')
         this.load.image('borderC','/Assets/Cubos/Borde.png')
+        this.load.image('darkBlueC', '/Assets/Cubos/7.png')
+        this.load.image('lightGreenC', '/Assets/Cubos/5.png')
+        this.load.image('pinkC', '/Assets/Cubos/12.png')
+        this.load.image('yellowC', '/Assets/Cubos/3.png')
+        this.load.image('blackC', '/Assets/Cubos/0.png')
+        this.load.image('orangeC', '/Assets/Cubos/2.png')
+        this.load.image('brownC', '/Assets/Cubos/17.png')
 
     }
     create() {
@@ -64,7 +63,7 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         puzzlePage.displayHeight = this.sys.canvas.height;
         this.text = this.add.text(0, 0,
             "Complete la figura seleccionando\nlos colores deseados", {
-            color: '#000000',   
+            color: '#000000',
             
         });
         this.restartButton = this.add.image(this.scale.width - 115, this.scale.height - 60, 'terminarButton');
@@ -76,6 +75,8 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         this.checkCompletion();
         });
         
+        this.createPauseButton();
+
         // Variable que guarda el color seleccionado
         this.selectedColor = "red";
         this.selectedColor = "yellow";
@@ -119,6 +120,117 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         //Resize
         wrapResizeFn(this);
             
+    }
+
+    createPauseButton() {
+        // Crear el contenedor del botón
+        const buttonContainer = document.createElement('div');
+        const pauseButton = document.createElement('button');
+    
+        // Estilo del contenedor del botón
+        buttonContainer.style.position = 'absolute';
+        buttonContainer.style.top = '20px'; // Colocamos el botón en la parte superior de la pantalla
+        buttonContainer.style.right = '40px'; // Colocamos el botón en la esquina derecha
+        buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
+        buttonContainer.style.pointerEvents = 'auto'; // Asegura que el contenedor reciba eventos
+    
+        // Estilo del botón de pausa
+        pauseButton.style.backgroundImage = 'url("Assets/Button/pausa.jpg")';
+        pauseButton.style.backgroundSize = 'contain';
+        pauseButton.style.backgroundRepeat = 'no-repeat';
+        pauseButton.style.backgroundPosition = 'center';
+        pauseButton.style.width = '70px';
+        pauseButton.style.height = '70px';
+        pauseButton.style.border = 'none';
+        pauseButton.style.cursor = 'pointer';
+        pauseButton.style.color = 'transparent';
+    
+        // Evento de clic para pausar el juego
+        pauseButton.addEventListener('click', () => {
+            this.scene.pause(); // Pausar la escena actual
+            this.showPauseMenu(); // Opcional: Mostrar menú de pausa si lo deseas
+        });
+    
+        // Añadir el botón al contenedor y luego al cuerpo del documento
+        buttonContainer.appendChild(pauseButton);
+        document.body.appendChild(buttonContainer);
+    
+        // Eliminar el botón al cambiar de escena
+        this.events.once('shutdown', () => {
+            buttonContainer.remove();
+        });
+    }
+    
+    showPauseMenu() {
+        // Crear un contenedor para el menú de pausa
+        const pauseMenuContainer = document.createElement('div');
+        pauseMenuContainer.style.position = 'absolute';
+        pauseMenuContainer.style.top = '0';
+        pauseMenuContainer.style.left = '0';
+        pauseMenuContainer.style.width = '100vw';
+        pauseMenuContainer.style.height = '100vh';
+        pauseMenuContainer.style.display = 'flex';
+        pauseMenuContainer.style.flexDirection = 'column';
+        pauseMenuContainer.style.justifyContent = 'center';
+        pauseMenuContainer.style.alignItems = 'center';
+        pauseMenuContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
+        pauseMenuContainer.style.zIndex = '2000'; // Asegura que esté encima del canvas
+    
+        // Crear la imagen de fondo para el menú de pausa (opcional)
+        const pauseBackground = document.createElement('div');
+        pauseBackground.style.width = '100vw';
+        pauseBackground.style.height = '100vh';
+        pauseMenuContainer.appendChild(pauseBackground);
+    
+        // Botón de reanudar
+        const resumeButton = document.createElement('button');
+        resumeButton.style.backgroundImage = 'url("Assets/Button/Button.png")'; // Imagen para el botón de reanudar
+        resumeButton.style.backgroundSize = '100% 100%';
+        resumeButton.style.backgroundRepeat = 'no-repeat';
+        resumeButton.style.backgroundPosition = 'center';
+        resumeButton.style.position = 'absolute'; // Posiciona el botón de reanudar
+        resumeButton.style.top = '300px';  // 100 píxeles desde la parte superior
+        resumeButton.style.left = '583px'; // 200 píxeles desde la izquierda
+        resumeButton.style.width = '155px';
+        resumeButton.style.height = '70px';
+        resumeButton.style.border = 'none';
+        resumeButton.style.cursor = 'pointer';
+        resumeButton.style.color = 'transparent';
+        resumeButton.style.marginBottom = '20px'; // Espaciado entre botones
+    
+        // Botón de reiniciar
+        const restartButton = document.createElement('button');
+        restartButton.style.backgroundImage = 'url("Assets/Button/restart.png")'; // Imagen para el botón de reiniciar
+        restartButton.style.backgroundSize = '100% 100%';
+        restartButton.style.backgroundRepeat = 'no-repeat';
+        restartButton.style.backgroundPosition = 'center';
+        restartButton.style.position = 'absolute';
+        restartButton.style.top = '300px';  // 100 píxeles desde la parte superior
+        restartButton.style.left = '783px'; // 200 píxeles desde la izquierda
+        restartButton.style.width = '155px';
+        restartButton.style.height = '70px';
+        restartButton.style.border = 'none';
+        restartButton.style.cursor = 'pointer';
+        restartButton.style.color = 'transparent';
+    
+        // Evento de clic para reanudar el juego
+        resumeButton.addEventListener('click', () => {
+            this.scene.resume(); // Reanudar la escena
+            pauseMenuContainer.remove(); // Eliminar el menú de pausa
+        });
+    
+        // Evento de clic para reiniciar el juego
+        restartButton.addEventListener('click', () => {
+            this.scene.restart(); // Reiniciar la escena
+            pauseMenuContainer.remove(); // Eliminar el menú de pausa
+        });
+    
+        // Añadir los botones al contenedor del menú
+        pauseMenuContainer.appendChild(resumeButton);
+        pauseMenuContainer.appendChild(restartButton);
+    
+        // Añadir el menú al cuerpo del documento
+        document.body.appendChild(pauseMenuContainer);
     }
 
     checkCompletion() {
