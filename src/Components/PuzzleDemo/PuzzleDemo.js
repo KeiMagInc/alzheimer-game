@@ -28,6 +28,8 @@ class PuzzleDemo extends Component {
                 zoom: 1 / DPR
             }
         };
+
+        
         this.game = new Phaser.Game(config);
         const gameDiv = document.getElementById('phaser-game');
         this.resizeGame = resizeGame(this.game, gameDiv);
@@ -60,11 +62,25 @@ class PuzzleDemo extends Component {
         return (
             <div id="phaser-game" style={{ width:'100vw' , height: '100vh', backgroundColor: "black" , display: 'flex'}}>
                 {/* Botón de redirección al login */}
-                <div style={buttonContainerStyle}>
+                {/* <div style={buttonContainerStyle}>
                     <Link to="/login">
-                        <button style={buttonStyle}>Iniciar sesión</button>
+                    <button 
+                        type="submit" 
+                        style={{
+                            backgroundImage: 'url("Assets/Button/loginBTN.png")',
+                            backgroundSize: 'contain',
+                            backgroundRepeat: 'no-repeat',
+                            backgroundPosition: 'center',
+                            width: '155px', // Ajusta el tamaño del botón
+                            height: '70px', // Ajusta el tamaño del botón
+                            border: 'none', // Elimina el borde
+                            cursor: 'pointer', // Cambia el cursor al pasar sobre el botón
+                            color: 'transparent ', // Oculta el texto si no deseas que se vea
+                        }}
+                    >
+                    </button>
                     </Link>
-                </div>
+                </div> */}
             </div>
         );
     }

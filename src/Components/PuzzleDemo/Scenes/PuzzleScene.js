@@ -63,7 +63,7 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         puzzlePage.displayHeight = this.sys.canvas.height;
         this.text = this.add.text(0, 0,
             "Complete la figura seleccionando\nlos colores deseados", {
-            color: '#000000',
+            color: '#000000',   
             
         });
         this.restartButton = this.add.image(this.scale.width - 115, this.scale.height - 60, 'terminarButton');
