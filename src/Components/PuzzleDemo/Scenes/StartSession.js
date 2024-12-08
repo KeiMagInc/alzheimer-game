@@ -10,6 +10,14 @@ const StartSession = () => {
 
   const [selectedDrawing, setSelectedDrawing] = useState(null);
 
+  // Vinculación de los dibujos con sus imágenes
+  const drawingImages = {
+    "Círculo": "/Assets/Dibujos/circulo.png",
+    "Rosa": "/Assets/Dibujos/rosa.png",
+    "Estrella": "/Assets/Dibujos/estrella.png",
+    "Búho": "/Assets/Dibujos/buho.png"
+  };
+
   useEffect(() => {
     // Si no hay paciente, redirigir al listado de pacientes
     if (!patient) {
@@ -46,7 +54,6 @@ const StartSession = () => {
           <button onClick={() => handleDrawingSelection("Rosa")}>Dibujo 2: Rosa</button>
           <button onClick={() => handleDrawingSelection("Estrella")}>Dibujo 3: Estrella</button>
           <button onClick={() => handleDrawingSelection("Búho")}>Dibujo 4: Búho</button>
-          <button onClick={() => handleDrawingSelection("Flor")}>Dibujo 5: Flor</button>
         </div>
       </div>
 
@@ -55,8 +62,11 @@ const StartSession = () => {
         <div className="drawing-preview">
           <h3>Dibujo Seleccionado: {selectedDrawing}</h3>
           <div className="drawing-canvas">
-            {/* Aquí se debe renderizar el dibujo seleccionado en el canvas */}
-            <p>{selectedDrawing} estará disponible para pintar aquí.</p>
+            <img 
+              src={drawingImages[selectedDrawing]} 
+              alt={selectedDrawing} 
+              
+            />
           </div>
           <button className="start-painting-btn" onClick={handleStartPainting}>
             Iniciar Pintura
