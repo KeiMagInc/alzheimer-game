@@ -17,27 +17,15 @@ class StartScene extends Phaser.Scene {
         const startPage = this.add.image(0, 0, 'startpage').setOrigin(0, 0);
         startPage.displayWidth = this.sys.canvas.width;
         startPage.displayHeight = this.sys.canvas.height;
-        this.restartButton.create();
-        this.restartButton.setPosition(800, 700);
+        // Botón para iniciar el juego
+        const startButton = this.add.image(this.scale.width / 2, this.scale.height / 2, 'startButton');
+        startButton.setInteractive();
+        startButton.on('pointerdown', () => {
+            this.scene.start('GameScene'); // Cambia a GameScene
+        });
 
         this.createLoginButton();
 
-
-        // this.logInButton = this.add.image(this.scale.width / 2, this.scale.height * 0.95, 'logInButton').setInteractive(); // Más abajo
-        // this.logInButton.displayWidth = 199; // Ancho deseado en píxeles
-        // this.logInButton.displayHeight = 90; // Alto deseado en píxeles
-
-        // this.logInButton.on('pointerover', () => {
-        //     this.logInButton.setTint(0x91FF); 
-        // });
-        // this.logInButton.on('pointerout', () => {
-        //     this.logInButton.clearTint(); 
-        // });
-
-        // // Acción del botón de "Log In" (Redirige a la escena 'LogInScene')
-        // this.logInButton.on('pointerdown', () => {
-        //     this.scene.start('/login');  // Cambia a la escena 'LogInScene'
-        // }); 
     }
 
     createLoginButton() {
