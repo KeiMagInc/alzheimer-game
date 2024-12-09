@@ -358,37 +358,31 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         text.setPosition(width / 20, height * 0.02);
         text.setWordWrapWidth(width * 0.8);
 
+        // Tamaño dinámico para los cubos basado en el ancho y alto de la pantalla
+        const cubeSize = Math.min(width, height) * 0.11; // Tamaño relativo
 
-        //seleccion del objeto cuadro
-        redButton.setPosition(width / 7, height * 0.2);
-        scaleImage(redButton, width / 8, height / 2, 100, 2)
+        // Función para configurar botones con márgenes consistentes
+        const configureButton = (button, xFactor, yFactor) => {
+            const buttonWidth = cubeSize * 1.5; // Escala proporcional a los cubos
+            const buttonHeight = cubeSize * 1.5;
+            button.setPosition(width * xFactor, height * yFactor);
+            scaleImage(button, buttonWidth, buttonHeight, 10, 1.3); // Ajustar tamaño del botón
+        };
+    
+        // Posicionar los botones de colores de forma dinámica
+        
+        configureButton(redButton, 0.05, 0.35);
+        configureButton(greenButton, 0.14, 0.35);
+        configureButton(yellowButton, 0.23, 0.35);
+        configureButton(darkBlueButton, 0.32, 0.35);
+        configureButton(lightGreenButton, 0.41, 0.35);
 
-        yellowButton.setPosition(width / 3.8, height * 0.2);
-        scaleImage(yellowButton, width / 8, height / 2, 100, 2)
 
-        greenButton.setPosition(width / 7, height * 0.38);
-        scaleImage(greenButton, width / 8, height / 2, 100, 2)
-        
-        darkBlueButton.setPosition(width / 3.8, height * 0.38);
-        scaleImage(darkBlueButton, width / 8, height / 2, 100, 2)
-        
-        orangeButton.setPosition(width / 7, height * 0.56);
-        scaleImage(orangeButton, width / 8, height / 2, 100, 2)
-
-        pinkButton.setPosition(width / 3.8, height * 0.56);
-        scaleImage(pinkButton, width / 8, height / 2, 100, 2)
-
-        blueButton.setPosition(width / 7, height * 0.74);
-        scaleImage(blueButton, width / 8, height / 2, 100, 2)
-        
-        brownButton.setPosition(width / 3.8, height * 0.74);
-        scaleImage(brownButton, width / 8, height / 2, 100, 2)
-        
-        blackButton.setPosition(width / 7, height * 0.92);
-        scaleImage(blackButton, width / 8, height / 2, 100, 2)
-        
-        lightGreenButton.setPosition(width / 3.8, height * 0.92);
-        scaleImage(lightGreenButton, width / 8, height / 2, 100, 2)
+        configureButton(blueButton, 0.05, 0.65);
+        configureButton(brownButton, 0.14, 0.65);
+        configureButton(pinkButton, 0.23, 0.65);
+        configureButton(blackButton, 0.32, 0.65);
+        configureButton(orangeButton, 0.41, 0.65);
         
         scaleImage(this.restartButton, this.scale.width / 5, this.scale.height / 5, 100, 2.3); // Ajusta el tamaño con escala
 
