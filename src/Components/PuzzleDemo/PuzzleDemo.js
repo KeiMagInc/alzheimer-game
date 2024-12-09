@@ -31,6 +31,10 @@ class PuzzleDemo extends Component { // Define la clase PuzzleDemo que extiende 
                 height: document.documentElement.clientHeight * DPR, // Altura del juego
                 width: document.documentElement.clientWidth * DPR, // Anchura del juego
                 zoom: 1 / DPR // Zoom del juego
+            },
+            data: {
+                id_rompecabezas: therapist,
+                id_paciente
             }
         };
 
@@ -40,7 +44,7 @@ class PuzzleDemo extends Component { // Define la clase PuzzleDemo que extiende 
         window.addEventListener('resize', this.resizeGame); // Añade un listener para el evento de redimensionar la ventana
         console.log(1); // Imprime 1 en la consola (datos temporales para la prueba)
         this.game.data = { // Añade datos al juego
-            player_id: 1 // ID del jugador
+            game_id: 1 // ID del jugador
         };
     }
 

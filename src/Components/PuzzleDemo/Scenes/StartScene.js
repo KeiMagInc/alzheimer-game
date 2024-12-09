@@ -43,8 +43,8 @@ class StartScene extends Phaser.Scene {
 
         buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
 
-        buttonContainer.style.left = '795px'; // Cambia '100px' por la posición X que deseas
-        buttonContainer.style.top = '500px';
+        buttonContainer.style.left = '900px'; // Cambia '100px' por la posición X que deseas
+        buttonContainer.style.top = '570px';
 
         // Estilo del botón
         loginButton.style.backgroundImage = 'url("Assets/Button/loginBTN.png")';

@@ -119,7 +119,10 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         this.blackButton.on('pointerdown', () => { this.selectedColor = "black"; this.checkPuzzleCompletion(); });
         this.orangeButton.on('pointerdown', () => { this.selectedColor = "orange"; this.checkPuzzleCompletion(); });
         this.brownButton.on('pointerdown', () => { this.selectedColor = "brown"; this.checkPuzzleCompletion(); });
-        
+        if (data.id_juego ==1)
+        {
+
+        }
         matrixFill2(this)
 
         //Resize
@@ -346,14 +349,15 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         const yOffSet=   height/20
 
         const { text, imges,redButton,yellowButton,greenButton,lightGreenButton,darkBlueButton,blueButton, pinkButton, blackButton, orangeButton, brownButton } = this;
-        text.setFontSize(`${halfHeight * 0.2}px`);
+        text.setFontSize(`${halfHeight * 0.4}px`);
         
         for (var j = 0; j < imges.length; j++) {
             imges[j].forEach(img => img.resize(width * 0.08, height * 0.08, 34, 1.00))//ajusta el tamano de los bloques
             // eslint-disable-next-line 
             //                                                                    0.27     
-            imges[j].forEach((img, index) => img.setPosition(xOffset+ halfWidth * 0.255 * (index + 10), yOffSet+(halfHeight/4 * (j + 2))))//ajustar en funcion de la posicion...
+            imges[j].forEach((img, index) => img.setPosition(xOffset+ halfWidth * 0.25 * (index + 13), yOffSet+(halfHeight/3.8 * (j + 2))))//ajustar en funcion de la posicion...
         }
+
 
         text.setPosition(width / 20, height * 0.02);
         text.setWordWrapWidth(width * 0.8);

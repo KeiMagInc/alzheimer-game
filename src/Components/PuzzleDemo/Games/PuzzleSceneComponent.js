@@ -1,14 +1,15 @@
 import React, { Component } from "react";
 import Phaser from "phaser";
 import PuzzleScene from "../Scenes/PuzzleScene";
-
+import SummaryScene from "./SummaryScene";
+import StartScene from "../Scenes/StartScene";
 
 class PuzzleSceneComponent extends Component {
     constructor() {
         super();
         this.state = {
             modalOpen: true,
-
+            currentScene: 'PuzzleScene' // Escena actual
         }
     }
 
@@ -18,7 +19,7 @@ class PuzzleSceneComponent extends Component {
             backgroundColor: '#c39ed7',
             type: Phaser.AUTO,
             scene:
-                [PuzzleScene],
+                [PuzzleScene,StartScene, SummaryScene],
             scale: {
                 parent: 'phaser-game',
                 mode: Phaser.Scale.NONE,
