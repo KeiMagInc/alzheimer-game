@@ -1,45 +1,59 @@
-import React, { useEffect } from 'react';
-import { useLocation, useNavigate } from 'react-router-dom';
-import '../../../GameScene.css'; // Asegúrate de tener el archivo CSS correcto
+import Phaser from 'phaser';
 
-const GameScene = () => {
-  const location = useLocation();
-  const navigate = useNavigate();
+class GameScene extends Phaser.Scene {
+  constructor() {
+    super({ key: 'GameScene' });
+  }
 
-  const patient = location.state?.patient; // Verifica si el paciente existe en el estado
+  preload() {
+    // Carga de la imagen del fondo
+    this.load.image('background', '/Assets/GameScenes/PuzzleSbk.png');
 
-  // Lista de dibujos con sus imágenes
-  const drawingImages = [
-    { name: "Círculo", src: "/Assets/Dibujos/circulo.png" },
-    { name: "Rosa", src: "/Assets/Dibujos/rosa.png" },
-    { name: "Estrella", src: "/Assets/Dibujos/estrella.png" },
-    { name: "Búho", src: "/Assets/Dibujos/buho.png" },
-  ];
+    // Carga de las imágenes de los dibujos
+    this.load.image('circle', '/Assets/Dibujos/circulo.png');
+    this.load.image('rose', '/Assets/Dibujos/rosa.png');
+    this.load.image('star', '/Assets/Dibujos/estrella.png');
+    this.load.image('owl', '/Assets/Dibujos/buho.png');
+  }
 
-  return (
-    <div className="session-container">
-      <h2>Selecciona un dibujo para pintar</h2>
+  create() {
+    // Agrega la imagen de fondo
+    const background = this.add.image(0, 0, 'background').setOrigin(0, 0);
+    background.displayWidth = this.sys.game.config.width; // Ajusta al ancho del canvas
+    background.displayHeight = this.sys.game.config.height; // Ajusta al alto del canvas
 
-      {/* Mostrar las imágenes de los dibujos */}
-      <div className="drawing-grid">
-        {drawingImages.map((drawing, index) => (
-          <div key={index} className="drawing-item">
-            <h3>{drawing.name}</h3>
-            <div className="drawing-canvas">
-              <img
-                src={drawing.src}
-                alt={drawing.name}
-                loading="lazy" // Mejora el rendimiento al cargar imágenes
-              />
-            </div>
-            <button className="start-painting-btn">
-              Iniciar Pintura
-            </button>
-          </div>
-        ))}
-      </div>
-    </div>
-  );
-};
+    // Dimensiones del canvas
+    const canvasWidth = this.sys.game.config.width;
+    const canvasHeight = this.sys.game.config.height;
+
+    const drawings = [
+      { name: 'Círculo', key: 'circle' },
+      { name: 'Rosa', key: 'rose' },
+      { name: 'Estrella', key: 'star' },
+      { name: 'Búho', key: 'owl' },
+    ];
+
+    const gridSpacing = canvasWidth / 4; // Ajusta el espaciado en función del ancho
+    const startX = canvasWidth / 2.5; // Espaciado desde la izquierda
+    const startY = canvasHeight / 4; // Espaciado desde la parte superior
+
+    drawings.forEach((drawing, index) => {
+      const x = startX + (index % 2) * gridSpacing;
+      const y = startY + Math.floor(index / 2) * gridSpacing;
+
+      const image = this.add.image(x, y, drawing.key).setInteractive();
+      image.setScale(1); // Ajusta el tamaño de las imágenes
+
+      // Ajusta la posición del texto
+      const textYOffset = 200; // Cambia este valor para mover el texto
+      this.add.text(x, y + textYOffset, drawing.name, { font: '30px Arial', color: '#000' }).setOrigin(0.5);
+
+      // Evento al seleccionar
+      image.on('pointerdown', () => {
+        console.log(`Seleccionaste: ${drawing.name}`);
+      });
+    });
+  }
+}
 
 export default GameScene;

@@ -4,6 +4,7 @@ import PuzzleScene from "./Scenes/PuzzleScene";
 import StartScene from "./Scenes/StartScene";
 import SummaryScene from "./Scenes/SummaryScene";
 import { Link } from "react-router-dom"; // Importa Link para la navegación
+import GameScene from "./Scenes/GameScene";
 
 class PuzzleDemo extends Component {
     constructor() {
@@ -19,7 +20,7 @@ class PuzzleDemo extends Component {
         const config = {
             backgroundColor: '#c39ed7',
             type: Phaser.AUTO,
-            scene: [StartScene, PuzzleScene, SummaryScene],
+            scene: [StartScene, GameScene, PuzzleScene, SummaryScene],
             scale: {
                 parent: 'phaser-game',
                 mode: Phaser.Scale.NONE,
