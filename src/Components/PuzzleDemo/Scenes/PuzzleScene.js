@@ -134,8 +134,8 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
     
         // Estilo del contenedor del botón
         buttonContainer.style.position = 'absolute';
-        buttonContainer.style.top = '600px'; // Colocamos el botón en la parte superior de la pantalla
-        buttonContainer.style.left = '40px'; // Colocamos el botón en la esquina derecha
+        buttonContainer.style.top = '300px'; // Colocamos el botón en la parte superior de la pantalla
+        buttonContainer.style.left = '650px'; // Colocamos el botón en la esquina derecha
         buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
         buttonContainer.style.pointerEvents = 'auto'; // Asegura que el contenedor reciba eventos
     
