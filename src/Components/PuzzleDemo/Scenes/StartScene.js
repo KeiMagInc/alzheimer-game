@@ -24,6 +24,8 @@ class StartScene extends Phaser.Scene {
             this.scene.start('GameScene'); // Cambia a GameScene
         });
 
+        startButton.setPosition(850, 720);
+
         this.createLoginButton();
 
     }
@@ -38,11 +40,11 @@ class StartScene extends Phaser.Scene {
         buttonContainer.style.width = '100vw';
         buttonContainer.style.height = '100vh';
         buttonContainer.style.display = 'flex';
-        buttonContainer.style.justifyContent = 'center'; // Centra horizontalmente
-        buttonContainer.style.alignItems = 'center'; // Centra verticalmente
-        buttonContainer.style.transform = 'translateY(30%)'; // Baja el contenedor un 20% del alto total
 
         buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
+
+        buttonContainer.style.left = '795px'; // Cambia '100px' por la posición X que deseas
+        buttonContainer.style.top = '500px';
 
         // Estilo del botón
         loginButton.style.backgroundImage = 'url("Assets/Button/loginBTN.png")';
