@@ -61,10 +61,10 @@ class GameScene extends Phaser.Scene {
       });
     });
 
-    this.createRedirectButton(1250, 915, 'buttonBuho', 'StartScene'); 
-    this.createRedirectButton(770, 430, 'buttonCirculo', 'Scene2'); 
-    this.createRedirectButton(1250, 430, 'buttonRosa', 'Scene3'); 
-    this.createRedirectButton(770, 915, 'buttonEstrella', 'Scene4'); 
+    this.createRedirectButton(1250, 915, 'buttonBuho', 'PuzzleSceneBuho'); 
+    this.createRedirectButton(770, 430, 'buttonCirculo', 'PuzzleScene'); 
+    this.createRedirectButton(1250, 430, 'buttonRosa', 'PuzzleSceneRosa'); 
+    this.createRedirectButton(770, 915, 'buttonEstrella', 'PuzzleSceneEstrella'); 
   }
 
   

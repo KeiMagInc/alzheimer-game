@@ -1,6 +1,10 @@
 import React, { Component } from "react";
 import Phaser from "phaser";
 import PuzzleScene from "./Scenes/PuzzleScene";
+import PuzzleSceneRosa from "./Scenes/PuzzleSceneRosa";
+import PuzzleSceneBuho from "./Scenes/PuzzleSceneBuho";
+import PuzzleSceneEstrella from "./Scenes/PuzzleSceneEstrella";
+
 import StartScene from "./Scenes/StartScene";
 import SummaryScene from "./Scenes/SummaryScene";
 import { Link } from "react-router-dom"; // Importa Link para la navegación
@@ -20,7 +24,7 @@ class PuzzleDemo extends Component {
         const config = {
             backgroundColor: '#c39ed7',
             type: Phaser.AUTO,
-            scene: [StartScene, GameScene, PuzzleScene, SummaryScene],
+            scene: [StartScene, GameScene, PuzzleScene, SummaryScene, PuzzleSceneRosa, PuzzleSceneBuho, PuzzleSceneEstrella],
             scale: {
                 parent: 'phaser-game',
                 mode: Phaser.Scale.NONE,
