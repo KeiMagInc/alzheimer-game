@@ -1,8 +1,8 @@
 import Phaser from 'phaser'
-//import {matrixFill2} from '../Utils/DrawMatrixCircle' 
+import {matrixFill2} from '../Utils/DrawMatrixCircle' 
 //import {matrixFill2} from '../Utils/DrawMatrixRose' 
 //import {matrixFill2} from '../Utils/DrawMatrixStar' 
-import {matrixFill2} from '../Utils/DrawMatrixBuho' 
+//import {matrixFill2} from '../Utils/DrawMatrixBuho' 
 import { RestartButton } from '../../Button/restart-button.js';
 import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
 
@@ -29,32 +29,32 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         this.load.image('terminarButton', '/Assets/Button/terminar.png');
         this.load.image('puzzlescenebk', '/Assets/GameScenes/PuzzleSbkEnBlanco.png')
         console.log("paso de cuenta abajo 1 " + this.countDown)
-        this.load.image('red', '/Assets/New/1.png')
-        this.load.image('blue', '/Assets/New/8.png')
-        this.load.image('green', '/Assets/New/4.png')
-        this.load.image('border','/Assets/New/Borde.png')
-        this.load.image('darkBlue', '/Assets/New/7.png')
-        this.load.image('lightGreen', '/Assets/New/5.png')
-        this.load.image('pink', '/Assets/New/12.png')
-        this.load.image('yellow', '/Assets/New/3.png')
-        this.load.image('orange', '/Assets/New/2.png')
+        //Colores de los cuadrados
         this.load.image('black','/Assets/New/0.png')
-        this.load.image('brown','/Assets/New/17.png')
+        this.load.image('red', '/Assets/New/1.png')
+        this.load.image('orange', '/Assets/New/2.png')
+        this.load.image('yellow', '/Assets/New/3.png')
+        this.load.image('green', '/Assets/New/4.png')
+        this.load.image('lightGreen', '/Assets/New/5.png')
+        this.load.image('darkBlue', '/Assets/New/6.png')
+        this.load.image('blue', '/Assets/New/7.png')
+        this.load.image('pink', '/Assets/New/8.png')
+        this.load.image('brown','/Assets/New/9.png')
+        this.load.image('border','/Assets/New/Borde.png')
         this.load.image('transparente', '/Assets/New/Transparente.png')
 
-
-        //Cubos
-        this.load.image('redC', '/Assets/Cubos/1.png')
-        this.load.image('blueC', '/Assets/Cubos/8.png')
-        this.load.image('greenC', '/Assets/Cubos/4.png')
-        this.load.image('borderC','/Assets/Cubos/Borde.png')
-        this.load.image('darkBlueC', '/Assets/Cubos/7.png')
-        this.load.image('lightGreenC', '/Assets/Cubos/5.png')
-        this.load.image('pinkC', '/Assets/Cubos/12.png')
-        this.load.image('yellowC', '/Assets/Cubos/3.png')
+        //Cubos de Pintura
         this.load.image('blackC', '/Assets/Cubos/0.png')
+        this.load.image('redC', '/Assets/Cubos/1.png')
         this.load.image('orangeC', '/Assets/Cubos/2.png')
-        this.load.image('brownC', '/Assets/Cubos/17.png')
+        this.load.image('yellowC', '/Assets/Cubos/3.png')
+        this.load.image('greenC', '/Assets/Cubos/4.png')
+        this.load.image('lightGreenC', '/Assets/Cubos/5.png')
+        this.load.image('darkBlueC', '/Assets/Cubos/6.png')
+        this.load.image('blueC', '/Assets/Cubos/7.png')
+        this.load.image('pinkC', '/Assets/Cubos/8.png')
+        this.load.image('brownC', '/Assets/Cubos/9.png')
+        this.load.image('borderC','/Assets/Cubos/Borde.png')
 
     }
     create() {
