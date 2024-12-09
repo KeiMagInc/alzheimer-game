@@ -33,8 +33,7 @@ class PuzzleDemo extends Component { // Define la clase PuzzleDemo que extiende 
                 zoom: 1 / DPR // Zoom del juego
             },
             data: {
-                id_rompecabezas: therapist,
-                id_paciente
+   
             }
         };
 
