@@ -4,7 +4,7 @@ import '../../../PatientHistory.css'; // Importación del archivo CSS
 
 const PatientHistory = () => {
   const location = useLocation();
-  const navigate = useNavigate(); // Use the useNavigate hook
+  const navigate = useNavigate(); // 
   const { patient } = location.state || {}; // Aseguramos que el estado contenga datos del paciente
 
   if (!patient || !patient.history || patient.history.length === 0) {

@@ -26,7 +26,7 @@ class SummaryScene extends Phaser.Scene{
         this.restartButton = this.add.image(this.scale.width/2 + 199, this.scale.height - 125, 'restartButton');
         this.restartButton.setInteractive();
         this.restartButton.on('pointerdown', () => {
-            this.scene.start('Game');
+            this.scene.start('GameScene');
         });
         this.restartButton = this.add.image(this.scale.width/2 - 199, this.scale.height - 125, 'salirButton');
         this.restartButton.setInteractive();

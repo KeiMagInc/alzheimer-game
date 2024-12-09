@@ -18,10 +18,6 @@ class GameScene extends Phaser.Scene {
     this.load.image('buttonCirculo', '/Assets/Button/btnCirculo.png');
     this.load.image('buttonEstrella', '/Assets/Button/btnEstrella.png');
     this.load.image('buttonRosa', '/Assets/Button/btnRosa.png');
-
-
-    
-
   }
 
   create() {
@@ -60,7 +56,7 @@ class GameScene extends Phaser.Scene {
         console.log(`Seleccionaste: ${drawing.name}`);
       });
     });
-
+    // Botones de redirección a cada PuzzleScene
     this.createRedirectButton(1250, 915, 'buttonBuho', 'PuzzleSceneBuho'); 
     this.createRedirectButton(770, 430, 'buttonCirculo', 'PuzzleScene'); 
     this.createRedirectButton(1250, 430, 'buttonRosa', 'PuzzleSceneRosa'); 
@@ -72,9 +68,9 @@ class GameScene extends Phaser.Scene {
     const button = this.add.image(x, y, buttonKey).setInteractive();
     button.setScale(0.5); // Ajusta el tamaño del botón
 
-  
+    // Ajusta la posición del botón
     button.setPosition(x, y);
-
+    // Evento al seleccionar
     button.on('pointerdown', () => {
       console.log(`Redirigiendo a: ${sceneKey}`);
       this.scene.start(sceneKey); 
