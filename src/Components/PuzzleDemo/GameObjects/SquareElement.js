@@ -104,13 +104,13 @@ export default class SquareElement extends Phaser.GameObjects.Container {
         this.white.setScale(this.image.scale)
     }
     getIsCorrectSelected() {
-        if (this.isEditable && (this.memorySelection === this.trueValue)) {
-            return true
-        }
-        else {
-            return false
-        }
+        const isCorrect = this.isEditable && (this.memorySelection === this.trueValue);
+        console.log(
+            `Editable: ${this.isEditable}, Memoria: ${this.memorySelection}, Correcto: ${this.trueValue}, Resultado: ${isCorrect}`
+        );
+        return isCorrect;
     }
+    
     setSpriteActive(imgSelected){
         this.memorySelection = imgSelected
         switch (imgSelected) {

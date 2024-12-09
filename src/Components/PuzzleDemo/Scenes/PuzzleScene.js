@@ -11,6 +11,7 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         super('Game');
         this.restartButton = new RestartButton(this);
         this.score = 0; // variable para obtener el puntaje
+        this.isPuzzleCompleted = false;
     }
     init(data) {
         this.score = 0
@@ -57,6 +58,9 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
 
     }
     create() {
+        this.createStartButton();
+        this.scene.pause();
+        
         this.correctCount = 0;
         const puzzlePage = this.add.image(0, 0, 'puzzlescenebk').setOrigin(0, 0);
         puzzlePage.displayWidth = this.sys.canvas.width;
@@ -68,7 +72,7 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         });
         this.restartButton = this.add.image(this.scale.width - 115, this.scale.height - 60, 'terminarButton');
         this.restartButton.setInteractive();
-
+        this.restartButton.setVisible(false);
 
         // Configura el botón "terminar" para que verifique el progreso y cambie de escena
         this.restartButton.on('pointerdown', () => {
@@ -104,22 +108,62 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         this.orangeButton = this.add.image(0, 0, 'orangeC').setInteractive({ useHandCursor: true });
         this.brownButton = this.add.image(0, 0, 'brownC').setInteractive({ useHandCursor: true });
 
-        this.redButton.on('pointerdown', () => this.selectedColor = "red");
-        this.yellowButton.on('pointerdown', () => this.selectedColor = "yellow");
-        this.greenButton.on('pointerdown', () => this.selectedColor = "green");
-        this.lightGreenButton.on('pointerdown', () => this.selectedColor = "lightGreen");
-        this.darkBlueButton.on('pointerdown', () => this.selectedColor = "darkBlue");
-        this.blueButton.on('pointerdown', () => this.selectedColor = "blue");
-        this.pinkButton.on('pointerdown', () => this.selectedColor = "pink");
-        this.blackButton.on('pointerdown', () => this.selectedColor = "black");
-        this.orangeButton.on('pointerdown', () => this.selectedColor = "orange");
-        this.brownButton.on('pointerdown', () => this.selectedColor = "brown");
+        // Llamar a la verificación después de asignar colores
+        this.redButton.on('pointerdown', () => { this.selectedColor = "red"; this.checkPuzzleCompletion(); });
+        this.yellowButton.on('pointerdown', () => { this.selectedColor = "yellow"; this.checkPuzzleCompletion(); });
+        this.greenButton.on('pointerdown', () => { this.selectedColor = "green"; this.checkPuzzleCompletion(); });
+        this.lightGreenButton.on('pointerdown', () => { this.selectedColor = "lightGreen"; this.checkPuzzleCompletion(); });
+        this.darkBlueButton.on('pointerdown', () => { this.selectedColor = "darkBlue"; this.checkPuzzleCompletion(); });
+        this.blueButton.on('pointerdown', () => { this.selectedColor = "blue"; this.checkPuzzleCompletion(); });
+        this.pinkButton.on('pointerdown', () => { this.selectedColor = "pink"; this.checkPuzzleCompletion(); });
+        this.blackButton.on('pointerdown', () => { this.selectedColor = "black"; this.checkPuzzleCompletion(); });
+        this.orangeButton.on('pointerdown', () => { this.selectedColor = "orange"; this.checkPuzzleCompletion(); });
+        this.brownButton.on('pointerdown', () => { this.selectedColor = "brown"; this.checkPuzzleCompletion(); });
         
         matrixFill2(this)
 
         //Resize
         wrapResizeFn(this);
             
+    }
+
+    createStartButton() {
+        // Crear el contenedor del botón
+        const buttonContainer = document.createElement('div');
+        const startButton = document.createElement('button');
+    
+        // Estilo del contenedor del botón
+        buttonContainer.style.position = 'absolute';
+        buttonContainer.style.top = '600px'; // Colocamos el botón en la parte superior de la pantalla
+        buttonContainer.style.left = '40px'; // Colocamos el botón en la esquina derecha
+        buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
+        buttonContainer.style.pointerEvents = 'auto'; // Asegura que el contenedor reciba eventos
+    
+        // Estilo del botón de inicio
+        startButton.style.backgroundImage = 'url("Assets/Button/Iniciar.png")'; // Cambiar a la imagen del botón de inicio
+        startButton.style.backgroundSize = '100% 100%';
+        startButton.style.backgroundRepeat = 'no-repeat';
+        startButton.style.backgroundPosition = 'center';
+        startButton.style.width = '155px';
+        startButton.style.height = '70px';
+        startButton.style.border = 'none';
+        startButton.style.cursor = 'pointer';
+        startButton.style.color = 'transparent';
+    
+        // Evento de clic para iniciar el juego
+        startButton.addEventListener('click', () => {
+            this.scene.resume(); // Reanudar la escena actual
+            buttonContainer.remove(); // Eliminar el botón de inicio después de hacer clic
+        });
+    
+        // Añadir el botón al contenedor y luego al cuerpo del documento
+        buttonContainer.appendChild(startButton);
+        document.body.appendChild(buttonContainer);
+    
+        // Eliminar el botón al cambiar de escena
+        this.events.once('shutdown', () => {
+            buttonContainer.remove();
+        });
     }
 
     createPauseButton() {
@@ -135,11 +179,11 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         buttonContainer.style.pointerEvents = 'auto'; // Asegura que el contenedor reciba eventos
     
         // Estilo del botón de pausa
-        pauseButton.style.backgroundImage = 'url("Assets/Button/pausa.jpg")';
+        pauseButton.style.backgroundImage = 'url("Assets/Button/Pausar.png")';
         pauseButton.style.backgroundSize = 'contain';
         pauseButton.style.backgroundRepeat = 'no-repeat';
         pauseButton.style.backgroundPosition = 'center';
-        pauseButton.style.width = '70px';
+        pauseButton.style.width = '155px';
         pauseButton.style.height = '70px';
         pauseButton.style.border = 'none';
         pauseButton.style.cursor = 'pointer';
@@ -176,7 +220,6 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         pauseMenuContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
         pauseMenuContainer.style.zIndex = '2000'; // Asegura que esté encima del canvas
     
-        // Crear la imagen de fondo para el menú de pausa (opcional)
         const pauseBackground = document.createElement('div');
         pauseBackground.style.width = '100vw';
         pauseBackground.style.height = '100vh';
@@ -184,7 +227,7 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
     
         // Botón de reanudar
         const resumeButton = document.createElement('button');
-        resumeButton.style.backgroundImage = 'url("Assets/Button/Button.png")'; // Imagen para el botón de reanudar
+        resumeButton.style.backgroundImage = 'url("Assets/Button/Reanudar.png")'; // Imagen para el botón de reanudar
         resumeButton.style.backgroundSize = '100% 100%';
         resumeButton.style.backgroundRepeat = 'no-repeat';
         resumeButton.style.backgroundPosition = 'center';
@@ -200,7 +243,7 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
     
         // Botón de reiniciar
         const restartButton = document.createElement('button');
-        restartButton.style.backgroundImage = 'url("Assets/Button/restart.png")'; // Imagen para el botón de reiniciar
+        restartButton.style.backgroundImage = 'url("Assets/Button/Restart.png")'; // Imagen para el botón de reiniciar
         restartButton.style.backgroundSize = '100% 100%';
         restartButton.style.backgroundRepeat = 'no-repeat';
         restartButton.style.backgroundPosition = 'center';
@@ -249,13 +292,58 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
             score: this.score || 0, // Usa 0 si `this.score` está `undefined`
         });
     }
+
+    colorCell() {
+        // Asumiendo que tienes una lógica que obtiene el cuadro que debe ser coloreado
+        // Ejemplo: this.selectedSquare = el cuadro seleccionado por el usuario
+        if (this.selectedSquare && this.selectedSquare.isEditable) {
+            this.selectedSquare.memorySelection = this.selectedColor; // Asignamos el color al cuadro
+            console.log(`Cuadro seleccionado: ${this.selectedSquare.memorySelection}`);
+        }
+    }
+    
+
+    checkPuzzleCompletion() {
+        let allSelected = true;
+    
+        this.imges.forEach(row => {
+            row.forEach(square => {
+                if (square.isEditable) {
+                    const hasSelection = square.memorySelection !== null; // Verifica si hay un color seleccionado
+                    console.log(`Cuadro editable: ${square.isEditable}, Seleccionado: ${hasSelection}`);
+                    if (!hasSelection) {
+                        allSelected = false;
+                    }
+                }
+            });
+        });
+    
+        this.isPuzzleCompleted = allSelected; // Actualiza el estado del rompecabezas (todos seleccionados)
+        console.log("Estado del rompecabezas (todo seleccionado):", this.isPuzzleCompleted);
+    
+        this.updateFinishButtonVisibility(); // Actualiza la visibilidad del botón
+    }    
+    
+
+    updateFinishButtonVisibility() {
+        if (this.isPuzzleCompleted) {
+            console.log("Mostrando el botón 'terminar'...");
+            this.restartButton.setVisible(true); // Muestra el botón si todos los cuadros editables están seleccionados
+        } else {
+            console.log("Ocultando el botón 'terminar'...");
+            this.restartButton.setVisible(false); // Oculta el botón si hay cuadros sin seleccionar
+        }
+    }
+    
+    
+    
     
     //Funcion de resize a landscape de la scena
     resizeLandscape(width, height) {
         const halfWidth = width / 11.5;
         const xOffset= width/3;
         const halfHeight = height / 5;
-        const yOffSet= height/20
+        const yOffSet=   height/20
 
         const { text, imges,redButton,yellowButton,greenButton,lightGreenButton,darkBlueButton,blueButton, pinkButton, blackButton, orangeButton, brownButton } = this;
         text.setFontSize(`${halfHeight * 0.2}px`);
