@@ -6,9 +6,9 @@ import {matrixFill2} from '../Utils/DrawMatrixBuho'
 import { RestartButton } from '../../Button/restart-button.js';
 import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
 
- class PuzzleScene extends Phaser.Scene {
+ class PuzzleSceneRosa extends Phaser.Scene {
     constructor() {
-        super({ key: 'PuzzleScene' });
+        super({ key: 'PuzzleSceneRosa' });
         this.restartButton = new RestartButton(this);
         this.score = 0; // variable para obtener el puntaje
         this.isPuzzleCompleted = false;
@@ -396,4 +396,4 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
     }
 }
 
-export default PuzzleScene;
+export default PuzzleSceneRosa;
