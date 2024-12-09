@@ -7,6 +7,11 @@ import PatientHistory from "./Components/PuzzleDemo/Scenes/PatientHistory"; // I
 import RegisterPatient from "./Components/PuzzleDemo/Scenes/RegisterPatient"; // Importa el registro de pacientes
 import StartSession from "./Components/PuzzleDemo/Scenes/StartSession"; // Importa la sesión de juego
 
+import PuzzleScene from "./Components/PuzzleDemo/Games/PuzzleSceneComponent";
+import PuzzleSceneEstrella from "./Components/PuzzleDemo/Games/PuzzleSceneEstrellaComponent";
+import PuzzleSceneRosa from "./Components/PuzzleDemo/Games/PuzzleSceneRosaComponent";
+import PuzzleSceneBuho from "./Components/PuzzleDemo/Games/PuzzleSceneBuhoComponent";
+
 const AppRoutes = (props) => {
     return (
         <Router>
@@ -23,9 +28,15 @@ const AppRoutes = (props) => {
                 <Route path="/register-patient" element={<RegisterPatient />} />
 
                 <Route path="/start-session" element={<StartSession />} />
-                
+
                 {/* Ruta para el juego principal */}
                 <Route path="/" element={<PuzzleDemo {...props} />} /> {/* Página de inicio del juego (opcional) */}
+                {/* Rutas para las escenas del juego */}
+                <Route path="/circle-scene" element={<PuzzleScene />} />
+                <Route path="/rosa-scene" element={<PuzzleSceneRosa />} />
+                <Route path="/estrella-scene" element={<PuzzleSceneEstrella />} />
+                <Route path="/buho-scene" element={<PuzzleSceneBuho />} />
+
             </Routes>
         </Router>
     );

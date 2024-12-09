@@ -30,9 +30,25 @@ const StartSession = () => {
   };
 
   const handleStartPainting = () => {
-    // Aquí iría la lógica para comenzar a pintar con el dibujo seleccionado.
-    console.log(`Iniciando pintura con el dibujo: ${selectedDrawing}`);
-  };
+    const drawingRoutes = {
+        "Círculo": "/circle-scene",
+        "Rosa": "/rosa-scene",
+        "Estrella": "/estrella-scene",
+        "Búho": "/buho-scene"
+    };
+
+    if (selectedDrawing) {
+        const route = drawingRoutes[selectedDrawing];
+        if (route) {
+            navigate(route, { state: { patient } }); // Pasar información del paciente si es necesario
+        } else {
+            console.error("Ruta no encontrada para el dibujo seleccionado.");
+        }
+    } else {
+        alert("Por favor selecciona un dibujo antes de iniciar la pintura.");
+    }
+};
+
 
   const handleBackToPatient = () => {
     navigate(-1); // Redirige al login
