@@ -1,10 +1,8 @@
 import Phaser from 'phaser'
 import {matrixFill2} from '../Utils/DrawMatrixCircle' 
-//import {matrixFill2} from '../Utils/DrawMatrixRose' 
-//import {matrixFill2} from '../Utils/DrawMatrixStar' 
-//import {matrixFill2} from '../Utils/DrawMatrixBuho' 
 import { RestartButton } from '../../Button/restart-button.js';
 import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
+import SaveSesionService from '../../../Services/SaveSesionService';
 
  class PuzzleScene extends Phaser.Scene {
     constructor() {
@@ -119,10 +117,7 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
         this.blackButton.on('pointerdown', () => { this.selectedColor = "black"; this.checkPuzzleCompletion(); });
         this.orangeButton.on('pointerdown', () => { this.selectedColor = "orange"; this.checkPuzzleCompletion(); });
         this.brownButton.on('pointerdown', () => { this.selectedColor = "brown"; this.checkPuzzleCompletion(); });
-        if (data.id_juego ==1)
-        {
-
-        }
+        
         matrixFill2(this)
 
         //Resize
@@ -130,6 +125,46 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
             
     }
 
+    async checkCompletion() {
+        // Calcular puntaje
+        this.score = 0;
+        this.imges.forEach(row => {
+            row.forEach(square => {
+                if (square.isEditable && square.getIsCorrectSelected()) {
+                    this.score++;
+                }
+            });
+        });
+
+        // Datos de la sesión
+        const sessionData = {
+            id_paciente: 1, // Reemplázalo por el ID real del paciente
+            fecha: new Date().toISOString().split('T')[0], // Fecha actual
+            duracion: this.calculateDuration(), // Duración estimada
+            puntaje: this.score || 0, // Puntaje calculado
+        };
+        console.log(sessionData)
+        try {
+            // Llamar a la API para guardar los datos
+            const response = await SaveSesionService.addSesion(sessionData);
+            console.log('Datos guardados exitosamente:', response);
+
+            // Cambiar a la escena de resumen
+            this.scene.start('SummaryScene', { score: this.score });
+        } catch (error) {
+            console.error('Error al guardar los datos:', error);
+        }
+    }
+
+    calculateDuration() {
+        // Calcula la duración basada en el tiempo inicial y el tiempo actual
+        const elapsedTime = this.countDown - this.UserTime; // Diferencia entre cuenta regresiva inicial y actual
+        const minutes = Math.floor(elapsedTime / 60);
+        const seconds = elapsedTime % 60;
+        return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
+
+    }
+    
     createStartButton() {
         // Crear el contenedor del botón
         const buttonContainer = document.createElement('div');
@@ -277,23 +312,6 @@ import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
     
         // Añadir el menú al cuerpo del documento
         document.body.appendChild(pauseMenuContainer);
-    }
-
-    checkCompletion() {
-        this.score = 0; // Asegura que el puntaje esté en 0 al inicio de la verificación
-    
-        this.imges.forEach((row) => {
-            row.forEach((square) => {
-                if (square.isEditable && square.getIsCorrectSelected()) {
-                    this.score++; // Incrementa el puntaje solo si el cuadro es correcto
-                }
-            });
-        });
-    
-        // Cambia a SummaryScene y asegura que el puntaje sea 0 si no hay aciertos
-        this.scene.start('SummaryScene', {
-            score: this.score || 0, // Usa 0 si `this.score` está `undefined`
-        });
     }
 
     colorCell() {

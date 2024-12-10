@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import {matrixFill2} from '../Utils/DrawMatrixBuho' 
 import { RestartButton } from '../../Button/restart-button.js';
 import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
-import SaveSesionService from '../../../Services/SaveSesionService'
+import SaveSesionService from '../../../Services/SaveSesionService';
 
 
  class PuzzleSceneBuho extends Phaser.Scene {
@@ -313,23 +313,6 @@ import SaveSesionService from '../../../Services/SaveSesionService'
         // Añadir el menú al cuerpo del documento
         document.body.appendChild(pauseMenuContainer);
     }
-/*
-    checkCompletion() {
-        this.score = 0; // Asegura que el puntaje esté en 0 al inicio de la verificación
-    
-        this.imges.forEach((row) => {
-            row.forEach((square) => {
-                if (square.isEditable && square.getIsCorrectSelected()) {
-                    this.score++; // Incrementa el puntaje solo si el cuadro es correcto
-                }
-            });
-        });
-    
-        // Cambia a SummaryScene y asegura que el puntaje sea 0 si no hay aciertos
-        this.scene.start('SummaryScene', {
-            score: this.score || 0, // Usa 0 si `this.score` está `undefined`
-        });
-    }*/
 
     colorCell() {
         // Asumiendo que tienes una lógica que obtiene el cuadro que debe ser coloreado
