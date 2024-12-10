@@ -31,7 +31,7 @@ class SummaryScene extends Phaser.Scene{
         this.restartButton = this.add.image(this.scale.width/2 - 199, this.scale.height - 125, 'salirButton');
         this.restartButton.setInteractive();
         this.restartButton.on('pointerdown', () => {
-            window.location.href = "/start-session"; // 
+            window.location.href = "/start-session"; 
         });
     }
 }

@@ -3,6 +3,17 @@ import { MY_BASE_URL } from "./config.js";
 
 export default class SaveSesionService {
   
+  static async getSesionesByPaciente(id_paciente) {
+    try {
+      const response = await axios.get(`${MY_BASE_URL}/sesion/pacientes/${id_paciente}`);
+      return response.data;
+    } catch (error) {
+      console.error('Error al obtener sesiones por paciente:', error.message);
+      throw error;
+    }
+  }
+
+  
   static async getSesiones() {
     try {
       const response = await axios.get(`${MY_BASE_URL}/sesion/`);
