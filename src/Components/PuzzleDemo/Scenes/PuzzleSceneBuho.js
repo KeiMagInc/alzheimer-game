@@ -2,7 +2,7 @@ import Phaser from 'phaser'
 import {matrixFill2} from '../Utils/DrawMatrixBuho' 
 import { RestartButton } from '../../Button/restart-button.js';
 import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
-import SaveSesionService from '../../../Services/SaveSesionService';
+import SesionService from '../../../Services/SesionService';
 
 
  class PuzzleSceneBuho extends Phaser.Scene {
@@ -147,7 +147,7 @@ import SaveSesionService from '../../../Services/SaveSesionService';
         console.log(sessionData)
         try {
             // Llamar a la API para guardar los datos
-            const response = await SaveSesionService.addSesion(sessionData);
+            const response = await SesionService.addSesion(sessionData);
             console.log('Datos guardados exitosamente:', response);
 
             // Cambiar a la escena de resumen

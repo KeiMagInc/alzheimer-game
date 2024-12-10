@@ -1,96 +1,127 @@
 import React, { useState } from 'react';
+import PatientService from '../../../Services/PatientService'; // Asegúrate de ajustar la ruta según tu estructura de proyecto
+
 
 // Componente AddPatient que permite agregar un nuevo paciente
 const AddPatient = () => {
   // Estado inicial del paciente con campos vacíos, excepto 'estado' que es 'Activo' por defecto
   const [newPatient, setNewPatient] = useState({
-    NUI: '',            // Número Único de Identificación del paciente
-    nombre: '',         // Nombre del paciente
-    apellido: '',       // Apellido del paciente
-    edad: '',           // Edad del paciente
-    direccion: '',      // Dirección del paciente
-    id_terapeuta: '',   // ID del terapeuta asignado al paciente
-    estado: 'Activo'    // Estado del paciente (Activo o Inactivo), por defecto es 'Activo'
+    id_terapeuta: '', // ID del terapeuta
+    nui: '',          // Número único de identificación
+    nombre: '',       // Nombre
+    apellido: '',     // Apellido
+    edad: '',         // Edad
+    direccion: ''     // Dirección
+});
+
+// Función para manejar los cambios en los campos del formulario
+const handleChange = (e) => {
+  const { name, value } = e.target;
+  setNewPatient({
+      ...newPatient,
+      [name]: value,
   });
+};
 
-  // Función que maneja los cambios en los campos del formulario
-  const handleChange = (e) => {
-    const { name, value } = e.target;  // Desestructuración de name y value del campo
-    // Actualiza el estado con los nuevos valores del formulario
-    setNewPatient({ ...newPatient, [name]: value });
-  };
+const validateForm = () => {
+  return (
+      newPatient.nui?.trim().length > 0 &&
+      newPatient.nombre?.trim().length > 0 &&
+      newPatient.apellido?.trim().length > 0 &&
+      !isNaN(newPatient.edad) &&
+      newPatient.direccion?.trim().length > 0 &&
+      newPatient.id_terapeuta?.trim().length > 0
+  );
+};
 
-  // Función que maneja el envío del formulario
-  const handleSubmit = (e) => {
-    e.preventDefault();  // Previene el comportamiento por defecto del formulario (recarga de página)
-    // Aquí iría la lógica para guardar el paciente, por ejemplo, en una base de datos
-    console.log('Paciente agregado:', newPatient);  // Muestra el objeto newPatient en la consola
-  };
+
+// Función para manejar el envío del formulario
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!validateForm()) {
+    setErrorMessage('Por favor, completa todos los campos correctamente.');
+    return;
+}
+
+
+  try {
+      console.log(newPatient)
+      const response = await PatientService.addPaciente(newPatient); // Aquí no se incluye `estado`
+      if (response.status === 200) {
+          setSuccessMessage('Paciente agregado correctamente.');
+          setErrorMessage('');
+          setNewPatient({
+              id_terapeuta: '',
+              nui: '',
+              nombre: '',
+              apellido: '',
+              edad: '',
+              direccion: ''
+          });
+      }
+  } catch (error) {
+      setErrorMessage(error.response?.data?.message || 'Error al agregar el paciente.');
+      setSuccessMessage('');
+  }
+};
+
 
   return (
     <div style={{ padding: '2rem' }}>
       <h1>Añadir Nuevo Paciente</h1>
       <form onSubmit={handleSubmit}>
-        {/* Formulario con los campos para agregar un nuevo paciente */}
-        <input
-          type="text"
-          name="NUI"
-          value={newPatient.NUI}
-          onChange={handleChange}
-          placeholder="NUI"
-          required  // El campo es obligatorio
-        />
-        <input
-          type="text"
-          name="nombre"
-          value={newPatient.nombre}
-          onChange={handleChange}
-          placeholder="Nombre"
-          required  // El campo es obligatorio
-        />
-        <input
-          type="text"
-          name="apellido"
-          value={newPatient.apellido}
-          onChange={handleChange}
-          placeholder="Apellido"
-          required  // El campo es obligatorio
-        />
-        <input
-          type="number"
-          name="edad"
-          value={newPatient.edad}
-          onChange={handleChange}
-          placeholder="Edad"
-          required  // El campo es obligatorio
-        />
-        <input
-          type="text"
-          name="direccion"
-          value={newPatient.direccion}
-          onChange={handleChange}
-          placeholder="Dirección"
-          required  // El campo es obligatorio
-        />
-        <input
-          type="text"
-          name="id_terapeuta"
-          value={newPatient.id_terapeuta}
-          onChange={handleChange}
-          placeholder="ID Terapeuta"
-          required  // El campo es obligatorio
-        />
-        {/* Selección del estado del paciente (Activo o Inactivo) */}
-        <select
-          name="estado"
-          value={newPatient.estado}
-          onChange={handleChange}
-        >
-          <option value="Activo">Activo</option>
-          <option value="Inactivo">Inactivo</option>
-        </select>
-        <button type="submit">Agregar Paciente</button>
-      </form>
+      <input
+        type="text"
+        name="nui"
+        value={newPatient.nui}
+        onChange={handleChange}
+        placeholder="NUI"
+        required
+    />
+    <input
+        type="text"
+        name="nombre"
+        value={newPatient.nombre}
+        onChange={handleChange}
+        placeholder="Nombre"
+        required
+    />
+    <input
+        type="text"
+        name="apellido"
+        value={newPatient.apellido}
+        onChange={handleChange}
+        placeholder="Apellido"
+        required
+    />
+    <input
+        type="number"
+        name="edad"
+        value={newPatient.edad}
+        onChange={handleChange}
+        placeholder="Edad"
+        required
+    />
+    <input
+        type="text"
+        name="direccion"
+        value={newPatient.direccion}
+        onChange={handleChange}
+        placeholder="Dirección"
+        required
+    />
+    <input
+        type="text"
+        name="id_terapeuta"
+        value={newPatient.id_terapeuta}
+        onChange={handleChange}
+        placeholder="ID Terapeuta"
+        required
+    />
+    <button type="submit">Agregar Paciente</button>
+</form>
+
     </div>
   );
 };

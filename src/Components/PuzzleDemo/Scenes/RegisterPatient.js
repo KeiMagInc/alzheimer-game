@@ -1,6 +1,7 @@
 import React, { useState } from "react";  // Importa React y el hook useState
 import { useNavigate, useLocation } from "react-router-dom";  // Importa useNavigate y useLocation para la navegación y obtener información de la ruta
 import '../../../RegisterPatient.css';  // Importa el archivo CSS para el estilo del componente
+import PatientService from '../../../Services/PatientService'; // Asegúrate de ajustar la ruta según tu estructura de proyecto
 
 // Componente RegisterPatient para registrar un nuevo paciente
 const RegisterPatient = () => {
@@ -13,7 +14,7 @@ const RegisterPatient = () => {
 
   // Estado para los datos del formulario
   const [formData, setFormData] = useState({
-    NUI: "",        // Número Único de Identificación del paciente
+    nui: "",        // Número Único de Identificación del paciente
     nombre: "",     // Nombre del paciente
     apellido: "",   // Apellido del paciente
     edad: "",       // Edad del paciente
@@ -30,12 +31,12 @@ const RegisterPatient = () => {
   };
 
   // Función que maneja el envío del formulario
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();  // Previene el comportamiento por defecto (recarga de página)
 
     // Validación de los campos del formulario
     if (
-      !formData.NUI ||
+      !formData.nui ||
       !formData.nombre ||
       !formData.apellido ||
       !formData.edad ||
@@ -52,14 +53,32 @@ const RegisterPatient = () => {
 
     // Simula la creación de un nuevo paciente y lo agrega a la lista de pacientes del terapeuta
     const newPatient = {
-      id: therapist.patients.length + 1,  // El ID del paciente es uno más que la longitud de la lista de pacientes
+      id_terapeuta: therapist.id ,  // El ID del paciente es uno más que la longitud de la lista de pacientes
       ...formData  // Copia los datos del formulario en el nuevo objeto de paciente
     };
 
-    therapist.patients.push(newPatient);  // Agrega el nuevo paciente a la lista del terapeuta
+    try {
+      newPatient.edad = parseInt(newPatient.edad, 10) || 0;
+      console.log(newPatient)
+      
+      const response = await PatientService.addPaciente(newPatient); // Aquí no se incluye `estado`
+      if (response.status === 200) {
+          setErrorMessage('');
+          setFormData({
+              id_terapeuta: '',
+              nui: '',
+              nombre: '',
+              apellido: '',
+              edad: '',
+              direccion: ''
+          });
+          // Navega hacia la página de pacientes, pasando el terapeuta actualizado como estado
+             navigate("/patients", { state: { therapist } });
+      }
+  } catch (error) {
+      setErrorMessage(error.response?.data?.message || 'Error al agregar el paciente.');
+ }
 
-    // Navega hacia la página de pacientes, pasando el terapeuta actualizado como estado
-    navigate("/patients", { state: { therapist } });
   };
 
   return (
@@ -75,8 +94,8 @@ const RegisterPatient = () => {
           {/* Campo para ingresar el NUI del paciente */}
           <input
             type="text"
-            name="NUI"
-            value={formData.NUI}
+            name="nui"
+            value={formData.nui}
             onChange={handleInputChange}
           />
         </label>

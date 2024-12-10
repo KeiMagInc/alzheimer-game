@@ -155,7 +155,7 @@ export const matrixFill2 = (scene) => {
     scene.fila.push(new SquareElement(scene, 0, 0, 'pink', false, scene.selectedColor,"pink")) //1
     scene.fila.push(new SquareElement(scene, 0, 0, 'pink', false, scene.selectedColor,"pink")) //1
     scene.fila.push(new SquareElement(scene, 0, 0, 'yellow', false, scene.selectedColor,"yellow")) //1
-    scene.fila.push(new SquareElement(scene, 0, 0, 'lightGreen', true, scene.selectedColor,"lightGreen")) //1
+    scene.fila.push(new SquareElement(scene, 0, 0, 'lightGreen', false, scene.selectedColor,"lightGreen")) //1
 
     scene.fila.push(new SquareElement(scene, 0, 0, 'border', true, scene.selectedColor,"lightGreen")) //1
     scene.fila.push(new SquareElement(scene, 0, 0, 'border', true, scene.selectedColor,"yellow")) //1
