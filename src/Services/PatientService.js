@@ -1,11 +1,14 @@
 import axios from "axios"
 import {MY_BASE_URL} from "./config"
 export default class PatientService{
-    static async getPatients(){
+    static async getPatients(id_terapeuta){
       try {
         const response = await axios.get(MY_BASE_URL + 'paciente/', {
           headers: {
             'Content-Type': 'application/json',
+          },
+          params: {
+            id_terapeuta, // Enviar el id_terapeuta como parámetro de consulta
           },
         });
         return response; // Retorna los datos de la respuesta en caso de éxito

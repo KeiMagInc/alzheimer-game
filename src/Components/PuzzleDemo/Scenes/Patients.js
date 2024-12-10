@@ -17,7 +17,7 @@ const Patients = () => {
   useEffect(() => {
     const fetchPatients = async () => {
       try {
-        const response = await PatientService.getPatients();  // Llama al servicio para obtener los pacientes
+        const response = await PatientService.getPatients(therapist.id);  // Llama al servicio para obtener los pacientes
         console.log(response.data);  // Muestra los datos de la respuesta en la consola
         if (response && response.data) {
           setPatients(response.data);  // Si se obtienen datos, actualiza el estado con los pacientes
