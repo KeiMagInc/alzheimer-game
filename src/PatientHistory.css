@@ -1,46 +1,111 @@
-.history-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    height: 100vh;
-    width: 100%;
-    background-color: #f4f4f4;
-    padding: 2rem;
+/* Contenedor principal */
+.patient-history-container {
+  padding: 20px;
+  margin: auto;
+  max-width: 500%; /* Ocupa el 90% del ancho de la pantalla */
+  background-color: #f9f9f9;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  font-family: Arial, sans-serif;
+  min-height: 80vh; /* Asegura que ocupe al menos el 80% de la altura de la pantalla */
+}
+
+/* Título */
+.patient-history-container h1 {
+  text-align: center;
+  color: #333;
+  font-size: 24px;
+  margin-bottom: 20px;
+}
+
+/* Botón de regresar */
+.btn-back1 {
+  display: inline-block;
+  margin-bottom: 20px;
+  padding: 10px 15px;
+  background-color: #d24d49;
+  color: #fff;
+  border: none;
+  border-radius: 4px;
+  font-size: 16px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-back1:hover {
+  background-color: #65190a;
+}
+
+/* Tabla */
+.patient-history-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  font-size: 14px;
+  color: #333;
+  text-align: center;
+}
+
+.patient-history-table thead {
+  background-color: #eebd41;
+  color: white;
+}
+
+.patient-history-table th,
+.patient-history-table td {
+  padding: 10px;
+  border: 1px solid #ddd;
+}
+
+.patient-history-table tbody tr:nth-child(even) {
+  background-color: #f2f2f2;
+}
+
+.patient-history-table tbody tr:hover {
+  background-color: #e9ecef;
+}
+
+/* Botón de eliminar */
+.btn-delete {
+  padding: 5px 10px;
+  background-color: #dc3545;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-size: 14px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.btn-delete:hover {
+  background-color: #c82333;
+}
+
+/* Mensajes de error o carga */
+.patient-history-container h1 {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+}
+
+/* Responsivo */
+@media (max-width: 768px) {
+  .patient-history-container {
+    max-width: 95%;
+    padding: 10px;
   }
-  
-  .history-table {
-    width: 100%;
-    border-collapse: collapse;
-    margin: 1rem 0;
-    background-color: #fff;
+
+  .patient-history-table {
+    font-size: 12px;
   }
-  
-  .history-table th, .history-table td {
-    padding: 0.8rem;
-    border: 1px solid #ddd;
+
+  .btn-back1 {
+    font-size: 14px;
+    padding: 8px 12px;
   }
-  
-  .history-table th {
-    background-color: #f8b400;
-    color: #fff;
+
+  .btn-delete {
+    font-size: 12px;
+    padding: 4px 8px;
   }
-  
-  .history-table td {
-    text-align: center;
-  }
-  
-  .back-button {
-    margin-top: 1rem;
-    padding: 0.8rem 1.5rem;
-    background-color: #007bff;
-    color: #fff;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-  }
-  
-  .back-button:hover {
-    background-color: #0056b3;
-  }
-  
+}
