@@ -21,63 +21,46 @@ class GameScene extends Phaser.Scene {
   }
 
   create() {
-    const background = this.add.image(0, 0, 'background').setOrigin(0, 0);
-    background.displayWidth = this.sys.game.config.width; // Ajusta al ancho del canvas
-    background.displayHeight = this.sys.game.config.height; // Ajusta al alto del canvas
+    // Ajustar el fondo al tamaño de la pantalla
+    this.add.image(this.scale.width / 2, this.scale.height / 2, 'background')
+      .setOrigin(0.5, 0.5)
+      .setDisplaySize(this.scale.width, this.scale.height);
 
-    // Dimensiones del canvas
-    const canvasWidth = this.sys.game.config.width;
-    const canvasHeight = this.sys.game.config.height;
-
+    // Definir las imágenes y botones
     const drawings = [
-      { name: 'Círculo', key: 'circle' },
-      { name: 'Rosa', key: 'rose' },
-      { name: 'Estrella', key: 'star' },
-      { name: 'Búho', key: 'owl' },
+      { name: 'Círculo', key: 'circle', buttonKey: 'buttonCirculo', scene: 'PuzzleScene' },
+      { name: 'Rosa', key: 'rose', buttonKey: 'buttonRosa', scene: 'PuzzleSceneRosa' },
+      { name: 'Estrella', key: 'star', buttonKey: 'buttonEstrella', scene: 'PuzzleSceneEstrella' },
+      { name: 'Búho', key: 'owl', buttonKey: 'buttonBuho', scene: 'PuzzleSceneBuho' },
     ];
 
-    const gridSpacing = canvasWidth / 4; // Ajusta el espaciado en función del ancho
-    const startX = canvasWidth / 2.5; // Espaciado desde la izquierda
-    const startY = canvasHeight / 4; // Espaciado desde la parte superior
+    // Configurar cuadrícula (2 columnas)
+    const cols = 2;
+    const gridSpacingX = this.scale.width * 0.4; // Espaciado horizontal
+    const gridSpacingY = this.scale.height * 0.45; // Espaciado vertical
+    const startX = this.scale.width * 0.3;
+    const startY = this.scale.height * 0.2;
 
     drawings.forEach((drawing, index) => {
-      const x = startX + (index % 2) * gridSpacing;
-      const y = startY + Math.floor(index / 2) * gridSpacing;
+      const col = index % cols;
+      const row = Math.floor(index / cols);
+      const x = startX + col * gridSpacingX;
+      const y = startY + row * gridSpacingY;
 
-      const image = this.add.image(x, y, drawing.key).setInteractive();
-      image.setScale(1); // Ajusta el tamaño de las imágenes
+      // Agregar imagen
+      const image = this.add.image(x, y, drawing.key).setScale(0.8).setOrigin(0.5).setInteractive();
 
-      // Ajusta la posición del texto
-      const textYOffset = 200; // Cambia este valor para mover el texto
-      this.add.text(x, y + textYOffset, drawing.name, { font: '30px Arial', color: '#000' }).setOrigin(0.5);
 
-      // Evento al seleccionar
-      image.on('pointerdown', () => {
-        console.log(`Seleccionaste: ${drawing.name}`);
+      // Crear el botón debajo del texto
+      const button = this.add.image(x, y + 170, drawing.buttonKey).setScale(0.5).setOrigin(0.5).setInteractive();
+
+      // Acción al hacer clic en el botón
+      button.on('pointerdown', () => {
+        console.log(`Redirigiendo a: ${drawing.scene}`);
+        this.scene.start(drawing.scene);
       });
     });
-    // Botones de redirección a cada PuzzleScene
-    this.createRedirectButton(1250, 915, 'buttonBuho', 'PuzzleSceneBuho'); 
-    this.createRedirectButton(770, 430, 'buttonCirculo', 'PuzzleScene'); 
-    this.createRedirectButton(1250, 430, 'buttonRosa', 'PuzzleSceneRosa'); 
-    this.createRedirectButton(770, 915, 'buttonEstrella', 'PuzzleSceneEstrella'); 
   }
-
-  
-  createRedirectButton(x, y, buttonKey, sceneKey) {
-    const button = this.add.image(x, y, buttonKey).setInteractive();
-    button.setScale(0.5); // Ajusta el tamaño del botón
-
-    // Ajusta la posición del botón
-    button.setPosition(x, y);
-    // Evento al seleccionar
-    button.on('pointerdown', () => {
-      console.log(`Redirigiendo a: ${sceneKey}`);
-      this.scene.start(sceneKey); 
-    });
-  }
-
-
 }
 
 export default GameScene;
