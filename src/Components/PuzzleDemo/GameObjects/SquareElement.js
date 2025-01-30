@@ -290,5 +290,6 @@ export default class SquareElement extends Phaser.GameObjects.Container {
                 console.log("Color no reconocido.");
                 break;
         }
+        this.scene.checkPuzzleCompletion(); 
     }
 }

@@ -257,42 +257,42 @@ import SesionService from '../../../Services/SesionService';
         pauseMenuContainer.style.alignItems = 'center';
         pauseMenuContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
         pauseMenuContainer.style.zIndex = '2000'; // Asegura que esté encima del canvas
-    
-        const pauseBackground = document.createElement('div');
-        pauseBackground.style.width = '100vw';
-        pauseBackground.style.height = '100vh';
-        pauseMenuContainer.appendChild(pauseBackground);
+        
+        // Mensaje de pausa
+        const pauseMessage = document.createElement('p');
+        pauseMessage.innerText = "El juego está en pausa. Puedes reanudar o reiniciar.";
+        pauseMessage.style.color = 'white';
+        pauseMessage.style.fontSize = '50px';
+        pauseMessage.style.fontWeight = 'bold';
+        pauseMessage.style.textAlign = 'center';
+        pauseMessage.style.marginBottom = '20px';
+        pauseMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
+        pauseMessage.style.padding = '10px';
+        pauseMessage.style.borderRadius = '10px';
     
         // Botón de reanudar
         const resumeButton = document.createElement('button');
-        resumeButton.style.backgroundImage = 'url("Assets/Button/Reanudar.png")'; // Imagen para el botón de reanudar
+        resumeButton.style.backgroundImage = 'url("Assets/Button/Reanudar.png")';
         resumeButton.style.backgroundSize = '100% 100%';
         resumeButton.style.backgroundRepeat = 'no-repeat';
         resumeButton.style.backgroundPosition = 'center';
-        resumeButton.style.position = 'absolute'; // Posiciona el botón de reanudar
-        resumeButton.style.top = '300px';  // 100 píxeles desde la parte superior
-        resumeButton.style.left = '583px'; // 200 píxeles desde la izquierda
         resumeButton.style.width = '155px';
         resumeButton.style.height = '70px';
         resumeButton.style.border = 'none';
         resumeButton.style.cursor = 'pointer';
         resumeButton.style.color = 'transparent';
-        resumeButton.style.marginBottom = '20px'; // Espaciado entre botones
+        resumeButton.style.marginBottom = '10px'; // Espaciado entre botones
     
         // Botón de reiniciar
         const restartButton = document.createElement('button');
-        restartButton.style.backgroundImage = 'url("Assets/Button/Restart.png")'; // Imagen para el botón de reiniciar
+        restartButton.style.backgroundImage = 'url("Assets/Button/Restart.png")';
         restartButton.style.backgroundSize = '100% 100%';
         restartButton.style.backgroundRepeat = 'no-repeat';
         restartButton.style.backgroundPosition = 'center';
-        restartButton.style.position = 'absolute';
-        restartButton.style.top = '300px';  // 100 píxeles desde la parte superior
-        restartButton.style.left = '783px'; // 200 píxeles desde la izquierda
         restartButton.style.width = '155px';
         restartButton.style.height = '70px';
         restartButton.style.border = 'none';
         restartButton.style.cursor = 'pointer';
-        restartButton.style.color = 'transparent';
     
         // Evento de clic para reanudar el juego
         resumeButton.addEventListener('click', () => {
@@ -306,13 +306,15 @@ import SesionService from '../../../Services/SesionService';
             pauseMenuContainer.remove(); // Eliminar el menú de pausa
         });
     
-        // Añadir los botones al contenedor del menú
+        // Añadir el mensaje y los botones al contenedor del menú
+        pauseMenuContainer.appendChild(pauseMessage);
         pauseMenuContainer.appendChild(resumeButton);
         pauseMenuContainer.appendChild(restartButton);
     
         // Añadir el menú al cuerpo del documento
         document.body.appendChild(pauseMenuContainer);
     }
+    
 
     colorCell() {
         // Asumiendo que tienes una lógica que obtiene el cuadro que debe ser coloreado

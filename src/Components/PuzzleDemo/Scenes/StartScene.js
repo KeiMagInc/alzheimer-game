@@ -1,5 +1,6 @@
 import Phaser from 'phaser';
 import { RestartButton } from '../../Button/restart-button.js';
+
 class StartScene extends Phaser.Scene {
     constructor() {
         super({ key: 'StartScene' });
@@ -14,39 +15,45 @@ class StartScene extends Phaser.Scene {
     }
 
     create() {
-        const startPage = this.add.image(0, 0, 'startpage').setOrigin(0, 0);
-        startPage.displayWidth = this.sys.canvas.width;
-        startPage.displayHeight = this.sys.canvas.height;
-        // Botón para iniciar el juego
-        const startButton = this.add.image(this.scale.width / 2, this.scale.height / 2, 'startButton');
-        startButton.setInteractive();
-        startButton.on('pointerdown', () => {
+        // Fondo ajustado al tamaño de la pantalla
+        const startPage = this.add.image(this.scale.width / 2, this.scale.height / 2, 'startpage')
+            .setOrigin(0.5, 0.5)
+            .setDisplaySize(this.scale.width, this.scale.height);
+
+        // Crear el contenedor de botones
+        this.createButtons();
+    }
+
+    createButtons() {
+        // Crear el contenedor para ambos botones
+        const buttonContainer = document.createElement('div');
+        buttonContainer.style.position = 'absolute';
+        buttonContainer.style.left = '50%';
+        buttonContainer.style.top = '80%'; // Ajusta el porcentaje si es necesario
+        buttonContainer.style.transform = 'translate(-50%, -50%)'; // Centrado perfecto
+        buttonContainer.style.display = 'flex';
+        buttonContainer.style.gap = '20px'; // Espaciado entre botones
+        buttonContainer.style.zIndex = '1000';
+
+        // Crear botón de jugar
+        const playButton = document.createElement('button');
+        playButton.style.backgroundImage = 'url("Assets/Button/button.png")';
+        playButton.style.backgroundSize = 'contain';
+        playButton.style.backgroundRepeat = 'no-repeat';
+        playButton.style.backgroundPosition = 'center';
+        playButton.style.width = '155px';
+        playButton.style.height = '70px';
+        playButton.style.border = 'none';
+        playButton.style.cursor = 'pointer';
+        playButton.style.color = 'transparent';
+
+        // Evento de clic para jugar
+        playButton.addEventListener('click', () => {
             this.scene.start('GameScene'); // Cambia a GameScene
         });
 
-        startButton.setPosition(850, 720);
-
-        this.createLoginButton();
-
-    }
-
-    createLoginButton() {
-        // Crear el botón como un elemento HTML
-        const buttonContainer = document.createElement('div');
+        // Crear botón de login
         const loginButton = document.createElement('button');
-
-        // Estilo del contenedor del botón
-        buttonContainer.style.position = 'absolute';
-        buttonContainer.style.width = '100vw';
-        buttonContainer.style.height = '100vh';
-        buttonContainer.style.display = 'flex';
-
-        buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
-
-        buttonContainer.style.left = '900px'; // Cambia '100px' por la posición X que deseas
-        buttonContainer.style.top = '570px';
-
-        // Estilo del botón
         loginButton.style.backgroundImage = 'url("Assets/Button/loginBTN.png")';
         loginButton.style.backgroundSize = 'contain';
         loginButton.style.backgroundRepeat = 'no-repeat';
@@ -57,16 +64,19 @@ class StartScene extends Phaser.Scene {
         loginButton.style.cursor = 'pointer';
         loginButton.style.color = 'transparent';
 
-        // Evento de clic
+        // Evento de clic para login
         loginButton.addEventListener('click', () => {
             window.location.href = "/login"; // Redirigir al login
         });
 
-        // Añadir el botón al contenedor y luego al cuerpo del documento
+        // Añadir botones al contenedor
+        buttonContainer.appendChild(playButton);
         buttonContainer.appendChild(loginButton);
+
+        // Añadir contenedor al body
         document.body.appendChild(buttonContainer);
 
-        // Eliminar el botón al cambiar de escena
+        // Eliminar los botones al cambiar de escena
         this.events.once('shutdown', () => {
             buttonContainer.remove();
         });
