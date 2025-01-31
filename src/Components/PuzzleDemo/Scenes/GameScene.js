@@ -48,11 +48,11 @@ class GameScene extends Phaser.Scene {
       const y = startY + row * gridSpacingY;
 
       // Agregar imagen
-      const image = this.add.image(x, y, drawing.key).setScale(0.8).setOrigin(0.5).setInteractive();
+      const image = this.add.image(x, y, drawing.key).setScale(0.6).setOrigin(0.5).setInteractive();
 
 
       // Crear el botón debajo del texto
-      const button = this.add.image(x, y + 170, drawing.buttonKey).setScale(0.5).setOrigin(0.5).setInteractive();
+      const button = this.add.image(x, y + 150, drawing.buttonKey).setScale(0.5).setOrigin(0.5).setInteractive();
 
       // Acción al hacer clic en el botón
       button.on('pointerdown', () => {
