@@ -2,6 +2,51 @@
 body{
   background-color: #F7EDE3; /* Usando el color #FECE8C como fondo general */
 }
+.btn-registrar-paciente {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px; /* Espacio entre el icono y el texto */
+  background-color: #28a745;
+  color: white;
+  font-size: 16px;
+  font-weight: bold;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+.btn-registrar-paciente:hover {
+  background-color: #218838;
+}
+
+.icono-mas {
+  font-size: 18px;
+}
+.btn-back {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* Espacio entre el icono y el texto */
+  background-color: #dc3545;
+  color: white;
+  font-size: 16px;
+  padding: 10px 15px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.3s ease;
+  margin: 10px;
+}
+
+.btn-back:hover {
+  background-color: #c82333;
+}
+
+.icono-regresar {
+  font-size: 18px;
+}
 
 .patients-container {
   display: flex;

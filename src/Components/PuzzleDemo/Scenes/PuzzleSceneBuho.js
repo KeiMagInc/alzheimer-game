@@ -127,35 +127,48 @@ import SesionService from '../../../Services/SesionService';
     }
 
     async checkCompletion() {
-        // Calcular puntaje
+        // Calcular puntaje, aciertos y errores
         this.score = 0;
+        let aciertos = 0;
+        let errores = 0;
+    
         this.imges.forEach(row => {
             row.forEach(square => {
-                if (square.isEditable && square.getIsCorrectSelected()) {
-                    this.score++;
+                if (square.isEditable) {
+                    if (square.getIsCorrectSelected()) {
+                        aciertos++; // Incrementa si la selección es correcta
+                    } else {
+                        errores++; // Incrementa si la selección es incorrecta
+                    }
                 }
             });
         });
-
+    
+        this.score = aciertos; // Puntaje basado en aciertos
+    
         // Datos de la sesión
         const sessionData = {
             id_paciente: 1, // Reemplázalo por el ID real del paciente
-            fecha: new Date().toISOString().split('T')[0], // Fecha actual
-            duracion: this.calculateDuration(), // Duración estimada
-            puntaje: this.score || 0, // Puntaje calculado
+            fecha: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
+            duracion: this.calculateDuration(), // Método para calcular la duración
+            puntaje: this.score || 0, // Puntaje basado en aciertos
+            aciertos: aciertos, // Número de aciertos
+            errores: errores // Número de errores
         };
-        console.log(sessionData)
+    
+        console.log("Enviando datos de la sesión:", sessionData);
+    
         try {
             // Llamar a la API para guardar los datos
             const response = await SesionService.addSesion(sessionData);
             console.log('Datos guardados exitosamente:', response);
-
+    
             // Cambiar a la escena de resumen
-            this.scene.start('SummaryScene', { score: this.score });
+            this.scene.start('SummaryScene', { score: this.score, aciertos: aciertos, errores: errores });
         } catch (error) {
             console.error('Error al guardar los datos:', error);
         }
-    }
+    }    
 
     calculateDuration() {
         // Calcula la duración basada en el tiempo inicial y el tiempo actual

@@ -2,6 +2,8 @@ import React ,  { useState, useEffect }from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import '../../../Patients.css';  // Importa los estilos CSS
 import PatientService from '../../../Services/PatientService';  // Importa el servicio para obtener los pacientes
+import { FaPlus } from "react-icons/fa";
+import { FaArrowLeft } from "react-icons/fa";
 
 // Componente principal para manejar la vista de pacientes
 const Patients = () => {
@@ -62,7 +64,7 @@ const Patients = () => {
     <div className="patients-container">
       {/* Botón para regresar al login */}
       <button className="btn-back" onClick={handleBackToLogin}>
-        Regresar
+        <FaArrowLeft className="icono-regresar" /> Regresar
       </button>
 
       {/* Muestra un mensaje de bienvenida con el nombre y apellido del terapeuta */}
@@ -74,12 +76,10 @@ const Patients = () => {
       </div>
 
       {/* Botón para registrar un nuevo paciente */}
-      <button 
-        className="btn-registrar-paciente"
-        onClick={handleRegistrarPaciente}
-      >
-        Registrar Paciente
-      </button>
+      
+      <button className="btn-registrar-paciente" onClick={handleRegistrarPaciente}>
+      <FaPlus className="icono-mas" /> Registrar Paciente
+      </button>     
 
       <h2>Pacientes Asignados</h2>
       {/* Tabla que muestra la lista de pacientes asignados al terapeuta */}
