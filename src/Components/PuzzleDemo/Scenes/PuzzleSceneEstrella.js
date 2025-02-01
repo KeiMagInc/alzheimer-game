@@ -196,19 +196,18 @@ class PuzzleSceneEstrella extends Phaser.Scene {
     }
 
     createStartButton() {
-        // Crear el contenedor del botón
         const buttonContainer = document.createElement('div');
         const startButton = document.createElement('button');
-
+    
         // Estilo del contenedor del botón
         buttonContainer.style.position = 'absolute';
-        buttonContainer.style.top = '580px'; // Colocamos el botón en la parte superior de la pantalla
-        buttonContainer.style.left = '40px'; // Colocamos el botón en la esquina derecha
-        buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
-        buttonContainer.style.pointerEvents = 'auto'; // Asegura que el contenedor reciba eventos
-
+        buttonContainer.style.bottom = '20px'; // Siempre en la parte inferior
+        buttonContainer.style.left = '20px'; // Desde la esquina izquierda
+        buttonContainer.style.zIndex = '1000'; 
+        buttonContainer.style.pointerEvents = 'auto';
+    
         // Estilo del botón de inicio
-        startButton.style.backgroundImage = 'url("Assets/Button/Iniciar.png")'; // Cambiar a la imagen del botón de inicio
+        startButton.style.backgroundImage = 'url("Assets/Button/Iniciar.png")';
         startButton.style.backgroundSize = '100% 100%';
         startButton.style.backgroundRepeat = 'no-repeat';
         startButton.style.backgroundPosition = 'center';
@@ -217,35 +216,31 @@ class PuzzleSceneEstrella extends Phaser.Scene {
         startButton.style.border = 'none';
         startButton.style.cursor = 'pointer';
         startButton.style.color = 'transparent';
-
-        // Evento de clic para iniciar el juego
+    
         startButton.addEventListener('click', () => {
-            this.scene.resume(); // Reanudar la escena actual
-            buttonContainer.remove(); // Eliminar el botón de inicio después de hacer clic
+            this.scene.resume();
+            buttonContainer.remove();
         });
-
-        // Añadir el botón al contenedor y luego al cuerpo del documento
+    
         buttonContainer.appendChild(startButton);
         document.body.appendChild(buttonContainer);
-
-        // Eliminar el botón al cambiar de escena
+    
         this.events.once('shutdown', () => {
             buttonContainer.remove();
         });
     }
-
+    
     createPauseButton() {
-        // Crear el contenedor del botón
         const buttonContainer = document.createElement('div');
         const pauseButton = document.createElement('button');
-
+    
         // Estilo del contenedor del botón
         buttonContainer.style.position = 'absolute';
-        buttonContainer.style.top = '580px'; // Colocamos el botón en la parte superior de la pantalla
-        buttonContainer.style.left = '250px'; // Colocamos el botón en la esquina derecha
-        buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
-        buttonContainer.style.pointerEvents = 'auto'; // Asegura que el contenedor reciba eventos
-
+        buttonContainer.style.bottom = '20px'; // Siempre en la parte inferior
+        buttonContainer.style.left = '200px'; // Espaciado desde el botón de inicio
+        buttonContainer.style.zIndex = '1000';
+        buttonContainer.style.pointerEvents = 'auto';
+    
         // Estilo del botón de pausa
         pauseButton.style.backgroundImage = 'url("Assets/Button/Pausar.png")';
         pauseButton.style.backgroundSize = 'contain';
@@ -256,22 +251,20 @@ class PuzzleSceneEstrella extends Phaser.Scene {
         pauseButton.style.border = 'none';
         pauseButton.style.cursor = 'pointer';
         pauseButton.style.color = 'transparent';
-
-        // Evento de clic para pausar el juego
+    
         pauseButton.addEventListener('click', () => {
-            this.scene.pause(); // Pausar la escena actual
-            this.showPauseMenu(); // Opcional: Mostrar menú de pausa si lo deseas
+            this.scene.pause();
+            this.showPauseMenu();
         });
-
-        // Añadir el botón al contenedor y luego al cuerpo del documento
+    
         buttonContainer.appendChild(pauseButton);
         document.body.appendChild(buttonContainer);
-
-        // Eliminar el botón al cambiar de escena
+    
         this.events.once('shutdown', () => {
             buttonContainer.remove();
         });
     }
+    
     showPauseMenu() {
         // Crear un contenedor para el menú de pausa
         const pauseMenuContainer = document.createElement('div');

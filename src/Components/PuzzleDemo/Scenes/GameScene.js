@@ -18,6 +18,7 @@ class GameScene extends Phaser.Scene {
     this.load.image('buttonCirculo', '/Assets/Button/btnCirculo.png');
     this.load.image('buttonEstrella', '/Assets/Button/btnEstrella.png');
     this.load.image('buttonRosa', '/Assets/Button/btnRosa.png');
+    this.load.image('salirButton', '/Assets/Button/salir.png');
   }
 
   create() {
@@ -25,6 +26,17 @@ class GameScene extends Phaser.Scene {
     this.add.image(this.scale.width / 2, this.scale.height / 2, 'background')
       .setOrigin(0.5, 0.5)
       .setDisplaySize(this.scale.width, this.scale.height);
+
+    // Agregar botón de salir en la esquina superior izquierda
+    const exitButton = this.add.image(50, 50, 'salirButton')
+      .setScale(0.5)
+      .setOrigin(0.5)
+      .setInteractive();
+
+    exitButton.on('pointerdown', () => {
+      console.log('Saliendo a StartScene');
+      this.scene.start('StartScene');
+    });
 
     // Definir las imágenes y botones
     const drawings = [
@@ -49,7 +61,6 @@ class GameScene extends Phaser.Scene {
 
       // Agregar imagen
       const image = this.add.image(x, y, drawing.key).setScale(0.6).setOrigin(0.5).setInteractive();
-
 
       // Crear el botón debajo del texto
       const button = this.add.image(x, y + 150, drawing.buttonKey).setScale(0.5).setOrigin(0.5).setInteractive();
