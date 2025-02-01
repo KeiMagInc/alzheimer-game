@@ -3,23 +3,33 @@ import Phaser from "phaser";
 import PuzzleScene from "../Scenes/PuzzleScene";
 import SummaryScene from "./SummaryScene";
 import StartScene from "../Scenes/StartScene";
+import { withRouter } from "../../../withRouter";
 
 class PuzzleSceneComponent extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             modalOpen: true,
-            currentScene: 'PuzzleScene' // Escena actual
+            currentScene: 'PuzzleScene', // Escena actual
+            patientId: null, // Inicializa como null
         }
     }
 
     componentDidMount() {
+
+        // Extraer `patientId` de `location.state`
+        const { location } = this.props;
+        const patientId = location.state?.patientId || null;
+
+        console.log("✅ Paciente ID recibido en PuzzleSceneComponent:", patientId);
+
+
         const DPR = window.devicePixelRatio;
         const config = {
             backgroundColor: '#c39ed7',
             type: Phaser.AUTO,
             scene:
-                [PuzzleScene,StartScene, SummaryScene],
+                [PuzzleScene, StartScene, SummaryScene],
             scale: {
                 parent: 'phaser-game',
                 mode: Phaser.Scale.NONE,
@@ -32,11 +42,18 @@ class PuzzleSceneComponent extends Component {
         const gameDiv = document.getElementById('phaser-game');
         this.resizeGame = resizeGame(this.game, gameDiv);
         window.addEventListener('resize', this.resizeGame);
-        //aqui estan quemados los datos
-        console.log(1)
-        this.game.data = {
-            player_id: 1
-        }
+        // 🔥 Asegurar que `this.game.data` existe antes de asignar el ID
+        setTimeout(() => {
+            if (this.game) {
+                if (!this.game.data) {
+                    this.game.data = {}; // 🚀 Inicializar `data` si no existe
+                }
+                this.game.data.player_id = patientId;
+                console.log("🎯 Paciente ID asignado en Phaser:", this.game.data.player_id);
+            } else {
+                console.error("⚠️ No se pudo asignar patientId porque `this.game` es undefined");
+            }
+        }, 500);
 
 
 
@@ -60,7 +77,7 @@ class PuzzleSceneComponent extends Component {
     render() {
 
         return (
-            <div id="phaser-game" style={{ width:'100vw' , height: '100vh', backgroundColor: "black" , display: 'flex'}}>
+            <div id="phaser-game" style={{ width: '100vw', height: '100vh', backgroundColor: "black", display: 'flex' }}>
                 {/* Botón de redirección al login */}
                 {/* <div style={buttonContainerStyle}>
                     <Link to="/login">
@@ -114,5 +131,4 @@ const resizeGame = (game, container) => () => {
     container.style.height = `${window.innerHeight}px`;
     game.scale.resize(clientWidth * DPR, clientHeight * DPR);
 };
-
-export default PuzzleSceneComponent;
+export default withRouter(PuzzleSceneComponent);

@@ -1,13 +1,13 @@
 import Phaser from 'phaser'
 //import {matrixFill2} from '../Utils/DrawMatrixCircle' 
 //import {matrixFill2} from '../Utils/DrawMatrixRose' 
-import {matrixFill2} from '../Utils/DrawMatrixStar' 
+import { matrixFill2 } from '../Utils/DrawMatrixStar'
 //import {matrixFill2} from '../Utils/DrawMatrixBuho' 
 import { RestartButton } from '../../Button/restart-button.js';
-import { scaleImage, wrapResizeFn }  from '../Utils/Resize';
+import { scaleImage, wrapResizeFn } from '../Utils/Resize';
 import SesionService from '../../../Services/SesionService';
 
- class PuzzleSceneEstrella extends Phaser.Scene {
+class PuzzleSceneEstrella extends Phaser.Scene {
     constructor() {
         super({ key: 'PuzzleSceneEstrella' });
         this.restartButton = new RestartButton(this);
@@ -24,14 +24,22 @@ import SesionService from '../../../Services/SesionService';
         if (this.countDown === undefined) {
             this.countDown = 600
         }
-        console.log(this.game.data)
+        // 🔥 Esperar hasta que `this.game.data` esté disponible
+        setTimeout(() => {
+            if (this.game && this.game.data) {
+                this.patientId = this.game.data.player_id || null;
+                console.log("✅ Paciente ID en Phaser PuzzleScene:", this.patientId);
+            } else {
+                console.error("⚠️ No se pudo obtener `this.game.data.player_id` en PuzzleScene");
+            }
+        }, 1000);
     }
     preload() {
         this.load.image('terminarButton', '/Assets/Button/terminar.png');
         this.load.image('puzzlescenebk', '/Assets/GameScenes/PuzzleSbkEnBlanco.png')
         console.log("paso de cuenta abajo 1 " + this.countDown)
         //Colores de los cuadrados
-        this.load.image('black','/Assets/New/0.png')
+        this.load.image('black', '/Assets/New/0.png')
         this.load.image('red', '/Assets/New/1.png')
         this.load.image('orange', '/Assets/New/2.png')
         this.load.image('yellow', '/Assets/New/3.png')
@@ -40,8 +48,8 @@ import SesionService from '../../../Services/SesionService';
         this.load.image('darkBlue', '/Assets/New/6.png')
         this.load.image('blue', '/Assets/New/7.png')
         this.load.image('pink', '/Assets/New/8.png')
-        this.load.image('brown','/Assets/New/9.png')
-        this.load.image('border','/Assets/New/Borde.png')
+        this.load.image('brown', '/Assets/New/9.png')
+        this.load.image('border', '/Assets/New/Borde.png')
         this.load.image('transparente', '/Assets/New/Transparente.png')
 
         //Cubos de Pintura
@@ -55,13 +63,13 @@ import SesionService from '../../../Services/SesionService';
         this.load.image('blueC', '/Assets/Cubos/7.png')
         this.load.image('pinkC', '/Assets/Cubos/8.png')
         this.load.image('brownC', '/Assets/Cubos/9.png')
-        this.load.image('borderC','/Assets/Cubos/Borde.png')
+        this.load.image('borderC', '/Assets/Cubos/Borde.png')
 
     }
     create() {
         this.createStartButton();
         this.scene.pause();
-        
+
         this.correctCount = 0;
         const puzzlePage = this.add.image(0, 0, 'puzzlescenebk').setOrigin(0, 0);
         puzzlePage.displayWidth = this.sys.canvas.width;
@@ -69,7 +77,7 @@ import SesionService from '../../../Services/SesionService';
         this.text = this.add.text(0, 0,
             "Complete la figura seleccionando\nlos colores deseados", {
             color: '#000000',
-            
+
         });
         this.restartButton = this.add.image(this.scale.width - 115, this.scale.height - 60, 'terminarButton');
         this.restartButton.setInteractive();
@@ -77,9 +85,9 @@ import SesionService from '../../../Services/SesionService';
 
         // Configura el botón "terminar" para que verifique el progreso y cambie de escena
         this.restartButton.on('pointerdown', () => {
-        this.checkCompletion();
+            this.checkCompletion();
         });
-        
+
         this.createPauseButton();
 
         // Variable que guarda el color seleccionado
@@ -120,12 +128,12 @@ import SesionService from '../../../Services/SesionService';
         this.blackButton.on('pointerdown', () => { this.selectedColor = "black"; this.checkPuzzleCompletion(); });
         this.orangeButton.on('pointerdown', () => { this.selectedColor = "orange"; this.checkPuzzleCompletion(); });
         this.brownButton.on('pointerdown', () => { this.selectedColor = "brown"; this.checkPuzzleCompletion(); });
-        
+
         matrixFill2(this)
 
         //Resize
         wrapResizeFn(this);
-            
+
     }
 
     async checkCompletion() {
@@ -133,7 +141,7 @@ import SesionService from '../../../Services/SesionService';
         this.score = 0;
         let aciertos = 0;
         let errores = 0;
-    
+
         this.imges.forEach(row => {
             row.forEach(square => {
                 if (square.isEditable) {
@@ -145,32 +153,38 @@ import SesionService from '../../../Services/SesionService';
                 }
             });
         });
-    
+
         this.score = aciertos; // Puntaje basado en aciertos
-    
+        // 🔥 Validar si el paciente tiene un ID asignado
+        if (this.patientId === undefined || this.patientId === null) {
+            console.warn("⚠️ ID de paciente no encontrado. Redirigiendo al login...");
+            this.scene.start('SummaryScene', { score: this.score });
+            return;
+        }
+
         // Datos de la sesión
         const sessionData = {
-            id_paciente: 1, // Reemplázalo por el ID real del paciente
+            id_paciente: this.patientId, // Reemplázalo por el ID real del paciente
             fecha: new Date().toISOString().split('T')[0], // Fecha actual en formato YYYY-MM-DD
             duracion: this.calculateDuration(), // Método para calcular la duración
             puntaje: this.score || 0, // Puntaje basado en aciertos
             aciertos: aciertos, // Número de aciertos
             errores: errores // Número de errores
         };
-    
+
         console.log(sessionData);
-    
+
         try {
             // Llamar a la API para guardar los datos
             const response = await SesionService.addSesion(sessionData);
             console.log('Datos guardados exitosamente:', response);
-    
+
             // Cambiar a la escena de resumen
             this.scene.start('SummaryScene', { score: this.score });
         } catch (error) {
             console.error('Error al guardar los datos:', error);
         }
-    }    
+    }
 
     calculateDuration() {
         // Calcula la duración basada en el tiempo inicial y el tiempo actual
@@ -185,14 +199,14 @@ import SesionService from '../../../Services/SesionService';
         // Crear el contenedor del botón
         const buttonContainer = document.createElement('div');
         const startButton = document.createElement('button');
-    
+
         // Estilo del contenedor del botón
         buttonContainer.style.position = 'absolute';
         buttonContainer.style.top = '580px'; // Colocamos el botón en la parte superior de la pantalla
         buttonContainer.style.left = '40px'; // Colocamos el botón en la esquina derecha
         buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
         buttonContainer.style.pointerEvents = 'auto'; // Asegura que el contenedor reciba eventos
-    
+
         // Estilo del botón de inicio
         startButton.style.backgroundImage = 'url("Assets/Button/Iniciar.png")'; // Cambiar a la imagen del botón de inicio
         startButton.style.backgroundSize = '100% 100%';
@@ -203,17 +217,17 @@ import SesionService from '../../../Services/SesionService';
         startButton.style.border = 'none';
         startButton.style.cursor = 'pointer';
         startButton.style.color = 'transparent';
-    
+
         // Evento de clic para iniciar el juego
         startButton.addEventListener('click', () => {
             this.scene.resume(); // Reanudar la escena actual
             buttonContainer.remove(); // Eliminar el botón de inicio después de hacer clic
         });
-    
+
         // Añadir el botón al contenedor y luego al cuerpo del documento
         buttonContainer.appendChild(startButton);
         document.body.appendChild(buttonContainer);
-    
+
         // Eliminar el botón al cambiar de escena
         this.events.once('shutdown', () => {
             buttonContainer.remove();
@@ -224,14 +238,14 @@ import SesionService from '../../../Services/SesionService';
         // Crear el contenedor del botón
         const buttonContainer = document.createElement('div');
         const pauseButton = document.createElement('button');
-    
+
         // Estilo del contenedor del botón
         buttonContainer.style.position = 'absolute';
         buttonContainer.style.top = '580px'; // Colocamos el botón en la parte superior de la pantalla
         buttonContainer.style.left = '250px'; // Colocamos el botón en la esquina derecha
         buttonContainer.style.zIndex = '1000'; // Asegura que el botón esté sobre el canvas
         buttonContainer.style.pointerEvents = 'auto'; // Asegura que el contenedor reciba eventos
-    
+
         // Estilo del botón de pausa
         pauseButton.style.backgroundImage = 'url("Assets/Button/Pausar.png")';
         pauseButton.style.backgroundSize = 'contain';
@@ -242,17 +256,17 @@ import SesionService from '../../../Services/SesionService';
         pauseButton.style.border = 'none';
         pauseButton.style.cursor = 'pointer';
         pauseButton.style.color = 'transparent';
-    
+
         // Evento de clic para pausar el juego
         pauseButton.addEventListener('click', () => {
             this.scene.pause(); // Pausar la escena actual
             this.showPauseMenu(); // Opcional: Mostrar menú de pausa si lo deseas
         });
-    
+
         // Añadir el botón al contenedor y luego al cuerpo del documento
         buttonContainer.appendChild(pauseButton);
         document.body.appendChild(buttonContainer);
-    
+
         // Eliminar el botón al cambiar de escena
         this.events.once('shutdown', () => {
             buttonContainer.remove();
@@ -272,7 +286,7 @@ import SesionService from '../../../Services/SesionService';
         pauseMenuContainer.style.alignItems = 'center';
         pauseMenuContainer.style.backgroundColor = 'rgba(0, 0, 0, 0.5)';
         pauseMenuContainer.style.zIndex = '2000'; // Asegura que esté encima del canvas
-        
+
         // Mensaje de pausa
         const pauseMessage = document.createElement('p');
         pauseMessage.innerText = "El juego está en pausa. Puedes reanudar o reiniciar.";
@@ -284,7 +298,7 @@ import SesionService from '../../../Services/SesionService';
         pauseMessage.style.backgroundColor = 'rgba(0, 0, 0, 0.7)';
         pauseMessage.style.padding = '10px';
         pauseMessage.style.borderRadius = '10px';
-    
+
         // Botón de reanudar
         const resumeButton = document.createElement('button');
         resumeButton.style.backgroundImage = 'url("Assets/Button/Reanudar.png")';
@@ -297,7 +311,7 @@ import SesionService from '../../../Services/SesionService';
         resumeButton.style.cursor = 'pointer';
         resumeButton.style.color = 'transparent';
         resumeButton.style.marginBottom = '10px'; // Espaciado entre botones
-    
+
         // Botón de reiniciar
         const restartButton = document.createElement('button');
         restartButton.style.backgroundImage = 'url("Assets/Button/Restart.png")';
@@ -308,28 +322,28 @@ import SesionService from '../../../Services/SesionService';
         restartButton.style.height = '70px';
         restartButton.style.border = 'none';
         restartButton.style.cursor = 'pointer';
-    
+
         // Evento de clic para reanudar el juego
         resumeButton.addEventListener('click', () => {
             this.scene.resume(); // Reanudar la escena
             pauseMenuContainer.remove(); // Eliminar el menú de pausa
         });
-    
+
         // Evento de clic para reiniciar el juego
         restartButton.addEventListener('click', () => {
             this.scene.restart(); // Reiniciar la escena
             pauseMenuContainer.remove(); // Eliminar el menú de pausa
         });
-    
+
         // Añadir el mensaje y los botones al contenedor del menú
         pauseMenuContainer.appendChild(pauseMessage);
         pauseMenuContainer.appendChild(resumeButton);
         pauseMenuContainer.appendChild(restartButton);
-    
+
         // Añadir el menú al cuerpo del documento
         document.body.appendChild(pauseMenuContainer);
     }
-    
+
 
     colorCell() {
         // Asumiendo que tienes una lógica que obtiene el cuadro que debe ser coloreado
@@ -339,11 +353,11 @@ import SesionService from '../../../Services/SesionService';
             console.log(`Cuadro seleccionado: ${this.selectedSquare.memorySelection}`);
         }
     }
-    
+
 
     checkPuzzleCompletion() {
         let allSelected = true;
-    
+
         this.imges.forEach(row => {
             row.forEach(square => {
                 if (square.isEditable) {
@@ -355,13 +369,13 @@ import SesionService from '../../../Services/SesionService';
                 }
             });
         });
-    
+
         this.isPuzzleCompleted = allSelected; // Actualiza el estado del rompecabezas (todos seleccionados)
         console.log("Estado del rompecabezas (todo seleccionado):", this.isPuzzleCompleted);
-    
+
         this.updateFinishButtonVisibility(); // Actualiza la visibilidad del botón
-    }    
-    
+    }
+
 
     updateFinishButtonVisibility() {
         if (this.isPuzzleCompleted) {
@@ -372,26 +386,26 @@ import SesionService from '../../../Services/SesionService';
             this.restartButton.setVisible(false); // Oculta el botón si hay cuadros sin seleccionar
         }
     }
-    
-    
-    
-    
+
+
+
+
     //Funcion de resize a landscape de la scena
     resizeLandscape(width, height) {
         const halfWidth = width / 11.5;
-        const xOffset= width/3;
+        const xOffset = width / 3;
         const halfHeight = height / 5;
-        const yOffSet=   height/20
+        const yOffSet = height / 20
 
-        const { text, imges,redButton,yellowButton,greenButton,lightGreenButton,darkBlueButton,blueButton, pinkButton, blackButton, orangeButton, brownButton } = this;
+        const { text, imges, redButton, yellowButton, greenButton, lightGreenButton, darkBlueButton, blueButton, pinkButton, blackButton, orangeButton, brownButton } = this;
         text.setFontSize(`${halfHeight * 0.4}px`);
-        
+
         for (var j = 0; j < imges.length; j++) {
-            
+
             imges[j].forEach(img => img.resize(width * 0.08, height * 0.08, 34, 1.00))//ajusta el tamano de los bloques
             // eslint-disable-next-line 
             //                                                                    0.27     
-            imges[j].forEach((img, index) => img.setPosition(xOffset+ halfWidth * 0.25 * (index + 13), yOffSet+(halfHeight/3.8 * (j + 2))))//ajustar en funcion de la posicion...
+            imges[j].forEach((img, index) => img.setPosition(xOffset + halfWidth * 0.25 * (index + 13), yOffSet + (halfHeight / 3.8 * (j + 2))))//ajustar en funcion de la posicion...
         }
 
 
@@ -409,9 +423,9 @@ import SesionService from '../../../Services/SesionService';
             button.setPosition(width * xFactor, height * yFactor);
             scaleImage(button, buttonWidth, buttonHeight, 10, 1.3); // Ajustar tamaño del botón
         };
-    
+
         // Posicionar los botones de colores de forma dinámica
-        
+
         configureButton(redButton, 0.05, 0.35);
         configureButton(greenButton, 0.14, 0.35);
         configureButton(yellowButton, 0.23, 0.35);
@@ -424,7 +438,7 @@ import SesionService from '../../../Services/SesionService';
         configureButton(pinkButton, 0.23, 0.65);
         configureButton(blackButton, 0.32, 0.65);
         configureButton(orangeButton, 0.41, 0.65);
-        
+
         scaleImage(this.restartButton, this.scale.width / 5, this.scale.height / 5, 100, 2.3); // Ajusta el tamaño con escala
 
 

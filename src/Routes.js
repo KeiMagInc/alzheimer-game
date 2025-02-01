@@ -32,10 +32,11 @@ const AppRoutes = (props) => {
                 {/* Ruta para el juego principal */}
                 <Route path="/" element={<PuzzleDemo {...props} />} /> {/* Página de inicio del juego (opcional) */}
                 {/* Rutas para las escenas del juego */}
-                <Route path="/circle-scene" element={<PuzzleScene />} />
-                <Route path="/rosa-scene" element={<PuzzleSceneRosa />} />
-                <Route path="/estrella-scene" element={<PuzzleSceneEstrella />} />
-                <Route path="/buho-scene" element={<PuzzleSceneBuho />} />
+                {/* 🔥 Asegurar que las escenas reciben las `props` de React Router */}
+                <Route path="/circle-scene" element={<PuzzleScene {...props} />} />
+                <Route path="/rosa-scene" element={<PuzzleSceneRosa {...props} />} />
+                <Route path="/estrella-scene" element={<PuzzleSceneEstrella {...props} />} />
+                <Route path="/buho-scene" element={<PuzzleSceneBuho {...props} />} />
 
             </Routes>
         </Router>

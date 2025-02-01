@@ -3,18 +3,26 @@ import Phaser from "phaser";
 import PuzzleSceneEstrella from "../Scenes/PuzzleSceneEstrella";
 import SummaryScene from "./SummarySceneEstrella";
 import StartScene from "../Scenes/StartScene";
-
+import { withRouter } from "../../../withRouter";
 
 class PuzzleSceneEstrellaComponent extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = { 
             modalOpen: true,
-            currentScene: 'PuzzleSceneEstrella' // Escena actual
+            currentScene: 'PuzzleSceneEstrella', // Escena actual
+            patientId: null, // Inicializa como null
         }
     }
 
     componentDidMount() {
+
+        // Extraer `patientId` de `location.state`
+        const { location } = this.props;
+        const patientId = location.state?.patientId || null;
+
+        console.log("✅ Paciente ID recibido en PuzzleSceneComponent:", patientId);
+
         const DPR = window.devicePixelRatio;
         const config = {
             backgroundColor: '#c39ed7',
@@ -33,11 +41,19 @@ class PuzzleSceneEstrellaComponent extends Component {
         const gameDiv = document.getElementById('phaser-game');
         this.resizeGame = resizeGame(this.game, gameDiv);
         window.addEventListener('resize', this.resizeGame);
-        //aqui estan quemados los datos
-        console.log(1)
-        this.game.data = {
-            player_id: 1
-        }
+        // 🔥 Asegurar que `this.game.data` existe antes de asignar el ID
+        setTimeout(() => {
+            if (this.game) {
+                if (!this.game.data) {
+                    this.game.data = {}; // 🚀 Inicializar `data` si no existe
+                }
+                this.game.data.player_id = patientId;
+                console.log("🎯 Paciente ID asignado en Phaser:", this.game.data.player_id);
+            } else {
+                console.error("⚠️ No se pudo asignar patientId porque `this.game` es undefined");
+            }
+        }, 500);
+        
 
 
 
@@ -117,4 +133,4 @@ const resizeGame = (game, container) => () => {
     game.scale.resize(clientWidth * DPR, clientHeight * DPR);
 };
 
-export default PuzzleSceneEstrellaComponent;
+export default withRouter(PuzzleSceneEstrellaComponent);

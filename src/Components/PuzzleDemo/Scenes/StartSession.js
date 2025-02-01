@@ -40,7 +40,12 @@ const StartSession = () => {
     if (selectedDrawing) {
         const route = drawingRoutes[selectedDrawing];
         if (route) {
-            navigate(route, { state: { patient } }); // Pasar información del paciente si es necesario
+          if (patient?.id) {
+            console.log("🚀 Navegando a", route, "con ID de paciente:", patient.id);
+        } else {
+            console.warn("El ID del paciente no está definido.");
+        }
+          navigate(route, { state: { patientId: patient.id } }); // Pasar información del paciente si es necesario
         } else {
             console.error("Ruta no encontrada para el dibujo seleccionado.");
         }

@@ -42,9 +42,7 @@ class PuzzleDemo extends Component { // Define la clase PuzzleDemo que extiende 
         this.resizeGame = resizeGame(this.game, gameDiv); // Asigna la función de redimensionar el juego
         window.addEventListener('resize', this.resizeGame); // Añade un listener para el evento de redimensionar la ventana
         console.log(1); // Imprime 1 en la consola (datos temporales para la prueba)
-        this.game.data = { // Añade datos al juego
-            game_id: 1 // ID del jugador
-        };
+        
     }
 
     handleClose = () => { // Método para manejar el cierre del modal
