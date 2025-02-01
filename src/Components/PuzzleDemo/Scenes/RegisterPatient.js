@@ -1,152 +1,196 @@
-import React, { useState } from "react";  // Importa React y el hook useState
-import { useNavigate, useLocation } from "react-router-dom";  // Importa useNavigate y useLocation para la navegación y obtener información de la ruta
-import '../../../RegisterPatient.css';  // Importa el archivo CSS para el estilo del componente
-import PatientService from '../../../Services/PatientService'; // Asegúrate de ajustar la ruta según tu estructura de proyecto
+import React, { useState } from "react";  
+import { useNavigate, useLocation } from "react-router-dom";  
+import { FaArrowLeft } from "react-icons/fa";  
+import '../../../RegisterPatient.css';  
+import PatientService from '../../../Services/PatientService';  
 
-// Componente RegisterPatient para registrar un nuevo paciente
-const RegisterPatient = () => {
-  // Inicializa la función de navegación
-  const navigate = useNavigate();
-  
-  // Obtiene la ubicación actual y la información del terapeuta desde el estado de la ruta
-  const location = useLocation();
-  const { therapist } = location.state || {};  // Obtiene el terapeuta desde location.state, si existe
+const RegisterPatient = () => {  
+  const navigate = useNavigate();  
+  const location = useLocation();  
+  const { therapist } = location.state || {};  
 
-  // Estado para los datos del formulario
-  const [formData, setFormData] = useState({
-    nui: "",        // Número Único de Identificación del paciente
-    nombre: "",     // Nombre del paciente
-    apellido: "",   // Apellido del paciente
-    edad: "",       // Edad del paciente
-    direccion: ""   // Dirección del paciente
-  });
+  const [formData, setFormData] = useState({  
+    nui: "",  
+    nombre: "",  
+    apellido: "",  
+    edad: "",  
+    direccion: ""  
+  });  
 
-  // Estado para el mensaje de error
-  const [errorMessage, setErrorMessage] = useState("");
+  const [errors, setErrors] = useState({});  
+  const [successMessage, setSuccessMessage] = useState("");  
 
-  // Función que maneja los cambios en los campos del formulario
-  const handleInputChange = (e) => {
-    const { name, value } = e.target;  // Desestructuración de 'name' y 'value' del campo
-    setFormData({ ...formData, [name]: value });  // Actualiza el estado con los nuevos valores del formulario
-  };
+  const handleInputChange = (e) => {  
+    const { name, value } = e.target;  
 
-  // Función que maneja el envío del formulario
-  const handleSubmit = async (e) => {
-    e.preventDefault();  // Previene el comportamiento por defecto (recarga de página)
+    if (name === "nui") {  
+      // Permite solo 10 dígitos numéricos y corta el exceso  
+      if (/^\d*$/.test(value) && value.length <= 10) {  
+        setFormData({ ...formData, [name]: value });  
+      }  
+    } else {  
+      setFormData({ ...formData, [name]: value });  
+    }  
+  };  
 
-    // Validación de los campos del formulario
-    if (
-      !formData.nui ||
-      !formData.nombre ||
-      !formData.apellido ||
-      !formData.edad ||
-      !formData.direccion
-    ) {
-      setErrorMessage("Todos los campos son obligatorios.");  // Muestra un mensaje de error si hay campos vacíos
-      return;
-    }
+  const handleBackToPatients = () => {  
+    navigate("/patients", { state: { therapist } });  
+  };  
 
-    if (isNaN(formData.edad) || formData.edad <= 0) {
-      setErrorMessage("La edad debe ser un número mayor que cero.");  // Muestra un mensaje de error si la edad no es válida
-      return;
-    }
+  const validateForm = () => {  
+    let newErrors = {};  
 
-    // Simula la creación de un nuevo paciente y lo agrega a la lista de pacientes del terapeuta
-    const newPatient = {
-      id_terapeuta: therapist.id ,  // El ID del paciente es uno más que la longitud de la lista de pacientes
-      ...formData  // Copia los datos del formulario en el nuevo objeto de paciente
-    };
+    if (!formData.nui.trim()) {  
+      newErrors.nui = "El NUI es obligatorio.";  
+    } else if (formData.nui.length !== 10) {  
+      newErrors.nui = "El NUI debe contener exactamente 10 dígitos.";  
+    }  
 
-    try {
-      newPatient.edad = parseInt(newPatient.edad, 10) || 0;
-      console.log(newPatient)
-      
-      const response = await PatientService.addPaciente(newPatient); // Aquí no se incluye `estado`
-      if (response.status === 200) {
-          setErrorMessage('');
-          setFormData({
-              id_terapeuta: '',
-              nui: '',
-              nombre: '',
-              apellido: '',
-              edad: '',
-              direccion: ''
-          });
-          // Navega hacia la página de pacientes, pasando el terapeuta actualizado como estado
-             navigate("/patients", { state: { therapist } });
-      }
-  } catch (error) {
-      setErrorMessage(error.response?.data?.message || 'Error al agregar el paciente.');
- }
+    if (!formData.nombre.trim()) {  
+      newErrors.nombre = "El nombre es obligatorio.";  
+    } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(formData.nombre)) {  
+      newErrors.nombre = "El nombre solo debe contener letras.";  
+    }  
 
-  };
+    if (!formData.apellido.trim()) {  
+      newErrors.apellido = "El apellido es obligatorio.";  
+    } else if (!/^[A-Za-zÁÉÍÓÚáéíóúÑñ\s]+$/.test(formData.apellido)) {  
+      newErrors.apellido = "El apellido solo debe contener letras.";  
+    }  
 
-  return (
-    <div className="register-patient-container">
-      <h1>Registrar Nuevo Paciente</h1>
-      {/* Muestra un mensaje de error si existe */}
-      {errorMessage && <p className="error-message">{errorMessage}</p>}
-      
-      {/* Formulario para registrar un nuevo paciente */}
-      <form onSubmit={handleSubmit} className="register-patient-form">
-        <label>
-          NUI:
-          {/* Campo para ingresar el NUI del paciente */}
-          <input
-            type="text"
-            name="nui"
-            value={formData.nui}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          Nombre:
-          {/* Campo para ingresar el nombre del paciente */}
-          <input
-            type="text"
-            name="nombre"
-            value={formData.nombre}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          Apellido:
-          {/* Campo para ingresar el apellido del paciente */}
-          <input
-            type="text"
-            name="apellido"
-            value={formData.apellido}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          Edad:
-          {/* Campo para ingresar la edad del paciente */}
-          <input
-            type="number"
-            name="edad"
-            value={formData.edad}
-            onChange={handleInputChange}
-          />
-        </label>
-        <label>
-          Dirección:
-          {/* Campo para ingresar la dirección del paciente */}
-          <input
-            type="text"
-            name="direccion"
-            value={formData.direccion}
-            onChange={handleInputChange}
-          />
-        </label>
-        
-        {/* Botón para enviar el formulario */}
-        <button type="submit" className="btn-submit">
-          Registrar
-        </button>
-      </form>
-    </div>
-  );
-};
+    if (!formData.edad.trim() || isNaN(formData.edad) || formData.edad < 1 || formData.edad > 120) {  
+      newErrors.edad = "Ingrese un número entre 1 y 120.";  
+    }  
 
-export default RegisterPatient;  // Exporta el componente para que pueda ser utilizado en otras partes de la aplicación
+    if (!formData.direccion.trim()) {  
+      newErrors.direccion = "La dirección es obligatoria.";  
+    } else if (formData.direccion.length < 5) {  
+      newErrors.direccion = "Debe tener al menos 5 caracteres.";  
+    }  
+
+    setErrors(newErrors);  
+    return Object.keys(newErrors).length === 0;  
+  };  
+
+  const handleSubmit = async (e) => {  
+    e.preventDefault();  
+
+    if (!validateForm()) {  
+      return;  
+    }  
+
+    const newPatient = {  
+      id_terapeuta: therapist.id,  
+      ...formData  
+    };  
+
+    try {  
+      newPatient.edad = parseInt(newPatient.edad, 10) || 0;  
+      console.log(newPatient);  
+
+      const response = await PatientService.addPaciente(newPatient);  
+      if (response.status === 200) {  
+        setErrors({});  
+        setSuccessMessage("Paciente registrado satisfactoriamente.");  
+
+        // Limpiar formulario  
+        setFormData({  
+          nui: "",  
+          nombre: "",  
+          apellido: "",  
+          edad: "",  
+          direccion: ""  
+        });  
+
+        // Esperar 2 segundos antes de redirigir  
+        setTimeout(() => {  
+          navigate("/patients", { state: { therapist } });  
+        }, 2000);  
+      }  
+    } catch (error) {  
+      setErrors({ general: error.response?.data?.message || "Error al agregar el paciente." });  
+    }  
+  };  
+
+  return (  
+    <div className="register-patient-container">  
+      {/* Botón de regresar en la parte superior izquierda */}  
+      <button className="btn-back" onClick={handleBackToPatients}>  
+        <FaArrowLeft className="icono-regresar" /> Regresar  
+      </button>  
+
+      <h1>Registrar Nuevo Paciente</h1>  
+
+      {successMessage && <p className="success-message">{successMessage}</p>}  
+      {errors.general && <p className="error-message">{errors.general}</p>}  
+
+      <form onSubmit={handleSubmit} className="register-patient-form">  
+        <label>  
+          NUI:  
+          <input  
+            type="text"  
+            name="nui"  
+            value={formData.nui}  
+            onChange={handleInputChange}  
+            placeholder="Ingrese el NUI (10 dígitos)"  
+            maxLength="10"  
+          />  
+          {errors.nui && <span className="tooltip">{errors.nui}</span>}  
+        </label>  
+
+        <label>  
+          Nombre:  
+          <input  
+            type="text"  
+            name="nombre"  
+            value={formData.nombre}  
+            onChange={handleInputChange}  
+            placeholder="Ingrese el nombre"  
+          />  
+          {errors.nombre && <span className="tooltip">{errors.nombre}</span>}  
+        </label>  
+
+        <label>  
+          Apellido:  
+          <input  
+            type="text"  
+            name="apellido"  
+            value={formData.apellido}  
+            onChange={handleInputChange}  
+            placeholder="Ingrese el apellido"  
+          />  
+          {errors.apellido && <span className="tooltip">{errors.apellido}</span>}  
+        </label>  
+
+        <label>  
+          Edad:  
+          <input  
+            type="number"  
+            name="edad"  
+            value={formData.edad}  
+            onChange={handleInputChange}  
+            placeholder="Ingrese la edad"  
+          />  
+          {errors.edad && <span className="tooltip">{errors.edad}</span>}  
+        </label>  
+
+        <label>  
+          Dirección:  
+          <input  
+            type="text"  
+            name="direccion"  
+            value={formData.direccion}  
+            onChange={handleInputChange}  
+            placeholder="Ingrese la dirección"  
+          />  
+          {errors.direccion && <span className="tooltip">{errors.direccion}</span>}  
+        </label>  
+
+        {/* Botón de registrar paciente en color verde */}  
+        <button type="submit" className="btn-submit">Registrar</button>  
+      </form>  
+    </div>  
+  );  
+};  
+
+export default RegisterPatient;
