@@ -1,0 +1,59 @@
+CREATE TABLE TERAPEUTA (
+    ID SERIAL PRIMARY KEY,  
+    NUI VARCHAR(10) UNIQUE, 
+    Nombre VARCHAR(20),
+    Apellido VARCHAR(20),
+    Especialidad VARCHAR(100),
+    Estado BOOLEAN NOT NULL,
+    Contrasena VARCHAR(255) NOT NULL
+);
+
+CREATE TABLE PACIENTE (
+    ID SERIAL PRIMARY KEY,  
+    NUI VARCHAR(10) UNIQUE, 
+    Nombre VARCHAR(20),
+    Apellido VARCHAR(20),
+    Edad INTEGER,
+    Direccion VARCHAR(100),
+    ID_Terapeuta INT NOT NULL, 
+    Estado BOOLEAN NOT NULL,
+    CONSTRAINT fk_terapeuta FOREIGN KEY (ID_Terapeuta) REFERENCES TERAPEUTA (ID) ON DELETE CASCADE
+);
+
+CREATE TABLE SESION (
+    ID_Intento SERIAL PRIMARY KEY,  
+    ID_Paciente INT NOT NULL,       
+    Fecha DATE NOT NULL,
+    Duracion TIME NOT NULL,
+    Puntaje INTEGER,
+    Aciertos INT NOT NULL,
+    Errores INT NOT NULL,
+    CONSTRAINT fk_paciente FOREIGN KEY (ID_Paciente) REFERENCES PACIENTE (ID) ON DELETE CASCADE
+);
+
+-- Insertar datos en la tabla TERAPEUTA con contrasena
+INSERT INTO TERAPEUTA (NUI, Nombre, Apellido, Especialidad, Estado, Contrasena) VALUES
+('0102034567', 'Carlos', 'Perez', 'Psicologia Clinica', true, 'abcd'),
+('0102045678', 'Ana', 'Lopez', 'Psicologia Infantil', true, 'abcd'),
+('0102056789', 'Luis', 'Gomez', 'Psicologia Educativa', true, 'abcd'),
+('0102067890', 'Maria', 'Martinez', 'Psicologia Familiar', true, 'abcd'),
+('0102078901', 'Jose', 'Hernandez', 'Psicologia Laboral', true, 'abcd');
+
+-- Insertar datos en la tabla PACIENTE
+INSERT INTO PACIENTE (NUI, Nombre, Apellido, Edad, Direccion, ID_Terapeuta, Estado) VALUES
+('0102089012', 'Juan', 'Rodriguez', 30, 'Av. Amazonas 123', 1, true),
+('0102090123', 'Maria', 'Gonzalez', 25, 'Calle 10, Quito', 2, true),
+('0102101234', 'Pedro', 'Jimenez', 40, 'Calle El Oro 456', 3, true),
+('0102112345', 'Luisa', 'Vargas', 35, 'Calle Jose Marti 789', 4, true),
+('0102123456', 'Carlos', 'Mendez', 28, 'Calle 2, Guayaquil', 5, true);
+
+-- Insertar datos en la tabla SESION
+INSERT INTO SESION (ID_Paciente, Fecha, Duracion, Puntaje, Aciertos, Errores) VALUES
+(1, '2024-11-01', '00:45:00', 80, 5, 2),
+(2, '2024-11-02', '01:00:00', 90, 7, 1),
+(3, '2024-11-03', '00:30:00', 70, 4, 3),
+(4, '2024-11-04', '01:15:00', 85, 6, 1),
+(5, '2024-11-05', '00:50:00', 88, 8, 0);
+
+-- Ver todos los registros en SESION
+SELECT * FROM SESION;
