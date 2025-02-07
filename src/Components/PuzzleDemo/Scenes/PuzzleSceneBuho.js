@@ -77,7 +77,7 @@ class PuzzleSceneBuho extends Phaser.Scene {
             color: '#000000',
 
         });
-        this.restartButton = this.add.image(this.scale.width - 115, this.scale.height - 60, 'terminarButton');
+        this.restartButton = this.add.image(this.scale.width - 90, this.scale.height - 30, 'terminarButton');
         this.restartButton.setInteractive();
         this.restartButton.setVisible(false);
 
@@ -428,7 +428,8 @@ createPauseButton() {
         configureButton(blackButton, 0.32, 0.65);
         configureButton(orangeButton, 0.41, 0.65);
 
-        scaleImage(this.restartButton, this.scale.width / 5, this.scale.height / 5, 100, 2.3); // Ajusta el tamaño con escala
+        scaleImage(this.restartButton, this.scale.width / 9, this.scale.height / 9, 100, 2.3);
+        this.restartButton.setPosition(this.scale.width - 300, this.scale.height - 70);
 
 
     }
