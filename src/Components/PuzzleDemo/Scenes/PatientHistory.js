@@ -29,7 +29,7 @@ const PatientHistory = () => {
       setLoading(false);
     } catch (err) {
       console.error("Error al obtener sesiones:", err.message);
-      setError("Error al cargar el historial del paciente.");
+      setError("No hay historial del paciente.");
       setLoading(false);
     }
   };

@@ -68,7 +68,7 @@ export default class SaveSesionService {
 
   static async deleteSesion(id_intento) {
     try {
-      const response = await axios.delete(`${MY_BASE_URL}/sesion/delete/${id_intento}`);
+      const response = await axios.delete(`${MY_BASE_URL}sesion/delete/${id_intento}`);
       return response.data;
     } catch (error) {
       console.error('Error al eliminar sesión:', error.message);
