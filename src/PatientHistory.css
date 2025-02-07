@@ -2,7 +2,7 @@
 .patient-history-container {
   padding: 20px;
   margin: auto;
-  max-width: 500%; /* Ocupa el 90% del ancho de la pantalla */
+  width: 800px; /* Ocupa el 90% del ancho de la pantalla */
   background-color: #f9f9f9;
   border-radius: 8px;
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
